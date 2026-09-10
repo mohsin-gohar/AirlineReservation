@@ -1,4 +1,4 @@
-@model AirlineReservation.Models.User
+@model AirlineReservation.Models.ProfileEditViewModel
 @{ ViewData["Title"] = "Edit Profile"; }
 <div class="page page-narrow">
     <div class="form-page">
@@ -12,24 +12,29 @@
                 <div class="input-group" style="margin-bottom:16px">
                     <div class="field" style="flex:1">
                         <label asp-for="FirstName">First name</label>
-                        <input asp-for="FirstName" class="input" />
+                        <input asp-for="FirstName" class="input" autocomplete="given-name" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
                     </div>
                     <div class="field" style="flex:1">
                         <label asp-for="LastName">Last name</label>
-                        <input asp-for="LastName" class="input" />
+                        <input asp-for="LastName" class="input" autocomplete="family-name" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="field" style="margin-bottom:16px">
                     <label asp-for="Email">Email</label>
-                    <input asp-for="Email" class="input" type="email" />
+                    <input asp-for="Email" class="input" type="email" autocomplete="email" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
                 <div class="field" style="margin-bottom:16px">
                     <label asp-for="PhoneNumber">Phone number</label>
-                    <input asp-for="PhoneNumber" class="input" type="tel" placeholder="+1 555 000 0000" />
+                    <input asp-for="PhoneNumber" class="input" type="tel" autocomplete="tel" placeholder="+1 555 000 0000" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                 </div>
                 <div class="field" style="margin-bottom:20px">
                     <label asp-for="Address">Address</label>
-                    <input asp-for="Address" class="input" placeholder="Street, city, country" />
+                    <input asp-for="Address" class="input" autocomplete="street-address" placeholder="Street, city, country" />
+                    <span asp-validation-for="Address" class="text-danger"></span>
                 </div>
                 <div style="display:flex;gap:12px">
                     <button class="btn btn-primary" type="submit">Save changes</button>

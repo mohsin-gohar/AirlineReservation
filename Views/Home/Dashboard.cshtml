@@ -7,7 +7,7 @@
         <h1>Welcome back, @(Model.User?.FirstName ?? "traveler")</h1>
         <p>Manage your journeys, fare holds, and SkyMiles in one place.</p>
     </div>
-</div>
+</section>
 <div class="page" style="margin-top:calc(-1*var(--s6))">
     <div class="kpi-grid reveal in" style="position:relative;z-index:3">
         <div class="kpi"><span class="ico"><svg viewBox="0 0 24 24"><path d="M20 6h-3V4a2 2 0 00-2-2H9a2 2 0 00-2 2v2H4a2 2 0 00-2 2v11a2 2 0 002 2h16a2 2 0 002-2V8a2 2 0 00-2-2z"/></svg></span><span><b>@(Model.Bookings?.Count ?? 0)</b><small>Total bookings</small></span></div>

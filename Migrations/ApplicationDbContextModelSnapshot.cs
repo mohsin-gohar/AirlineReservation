@@ -108,6 +108,9 @@ namespace AirlineReservation.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
+                    b.Property<DateTime?>("CheckedInAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("ConfirmationNumber")
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
@@ -703,6 +706,33 @@ namespace AirlineReservation.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Itineraries");
+                });
+
+            modelBuilder.Entity("AirlineReservation.Models.NewsletterSubscription", b =>
+                {
+                    b.Property<int>("SubscriptionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SubscriptionId"));
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<DateTime>("SubscribedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("SubscriptionId");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.ToTable("NewsletterSubscriptions");
                 });
 
             modelBuilder.Entity("AirlineReservation.Models.Notification", b =>

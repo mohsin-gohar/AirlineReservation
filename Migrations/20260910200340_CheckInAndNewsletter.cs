@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -33,7 +33,7 @@ namespace AirlineReservation.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "UQ__NewsletterSubscriptions__Email",
+                name: "IX_NewsletterSubscriptions_Email",
                 table: "NewsletterSubscriptions",
                 column: "Email",
                 unique: true);
