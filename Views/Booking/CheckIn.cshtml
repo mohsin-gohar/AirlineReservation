@@ -1,0 +1,70 @@
+@model IEnumerable<AirlineReservation.Models.Booking>
+@using AirlineReservation.Models
+@{
+    ViewData["Title"] = "Online Check-in";
+    var bookings = Model ?? Enumerable.Empty<Booking>();
+}
+<section class="dark-banner compact">
+    <div class="banner-inner">
+        <span class="eyebrow on-dark">Ready to fly</span>
+        <h1>Online check-in</h1>
+        <p>Check in for your upcoming SkyPulse journeys and get your boarding pass ready.</p>
+    </div>
+</section>
+<div class="page">
+    <div class="section-head reveal">
+        <div><span class="eyebrow">Your upcoming travel</span><h2 style="font-size:1.4rem;margin:0">@bookings.Count() active booking(s)</h2></div>
+        <a class="btn btn-primary btn-sm" asp-controller="Flight" asp-action="Search">Book a flight</a>
+    </div>
+    @if (!bookings.Any())
+    {
+        <div class="empty-state reveal in">
+            <div class="icon"><svg viewBox="0 0 24 24"><path d="M21.5 15.5l-8.1-4.7V4.8c0-.9-.6-2.3-1.4-2.3s-1.4 1.4-1.4 2.3v6L2.5 15.5v2.1l8.1-2.5v4.6l-2.2 1.6v1.5l3.6-1 3.6 1v-1.5l-2.2-1.6v-4.6l8.1 2.5v-2.1z"/></svg></div>
+            <h3>Nothing to check in yet</h3>
+            <p>Active bookings with confirmed tickets appear here when your travel is near. Search for a flight to get started.</p>
+            <a class="btn btn-primary btn-sm" asp-controller="Flight" asp-action="Search">Find a flight</a>
+        </div>
+    }
+    else
+    {
+        <div class="checkin-list">
+            @foreach (var b in bookings)
+            {
+                var reference = b.ConfirmationNumber ?? b.BlockingNumber ?? $"#{b.BookingId}";
+                var badge = b.IsCheckedIn ? "badge-arrived" : "badge-scheduled";
+                var confirmMsg = "Check in for SkyPulse " + (b.Flight?.FlightNumber ?? "") + " on " + b.DepartureDate.ToString("MMM dd, yyyy") + "?";
+                <article class="checkin-card reveal">
+                    <div class="checkin-route">
+                        <span class="code">@(b.Flight?.OriginAirport?.Code ?? b.Flight?.OriginCity?.CityName)</span>
+                        <span class="dash"><svg viewBox="0 0 24 24"><path d="M21.5 15.5l-8.1-4.7V4.8c0-.9-.6-2.3-1.4-2.3s-1.4 1.4-1.4 2.3v6L2.5 15.5v2.1l8.1-2.5v4.6l-2.2 1.6v1.5l3.6-1 3.6 1v-1.5l-2.2-1.6v-4.6l8.1 2.5v-2.1z"/></svg></span>
+                        <span class="code">@(b.Flight?.DestinationAirport?.Code ?? b.Flight?.DestinationCity?.CityName)</span>
+                        <span class="badge-status @badge">@(b.IsCheckedIn ? "Checked in" : "Not checked in")</span>
+                    </div>
+                    <div class="checkin-meta">
+                        <div><span>Flight</span><b>SkyPulse @b.Flight?.FlightNumber</b></div>
+                        <div><span>Departs</span><b>@b.DepartureDate.ToString("ddd, MMM dd, yyyy") · @(b.Flight?.DepartureTime.ToString(@"hh\:mm"))</b></div>
+                        <div><span>Reference</span><b><span class="ref-chip">@reference</span></b></div>
+                        <div><span>Travelers</span><b>@b.PassengerCount</b></div>
+                    </div>
+                    <div class="checkin-action">
+                        @if (b.BookingType == BookingType.Blocked)
+                        {
+                            <div class="note warn"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1010 10A10 10 0 0012 2zm1 15h-2v-2h2zm0-4h-2V7h2z"/></svg>Fare hold — <b>confirm your ticket</b> to unlock check-in.</div>
+                            <a class="btn btn-primary btn-sm" asp-action="MyBookings">Confirm my hold</a>
+                        }
+                        else if (b.IsCheckedIn)
+                        {
+                            <a class="btn btn-light btn-sm" asp-action="Status" asp-route-id="@b.BookingId">View boarding pass</a>
+                        }
+                        else
+                        {
+                            <form asp-action="CheckIn" asp-route-id="@b.BookingId" method="post" data-confirm data-confirm-message="@confirmMsg">
+                                <button class="btn btn-primary" type="submit">Check in</button>
+                            </form>
+                        }
+                    </div>
+                </article>
+            }
+        </div>
+    }
+</div>

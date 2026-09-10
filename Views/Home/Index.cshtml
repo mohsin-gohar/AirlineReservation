@@ -1,0 +1,219 @@
+@{
+    ViewData["Title"] = "Book Flights";
+    var cities = ViewBag.Cities as List<AirlineReservation.Models.City> ?? new List<AirlineReservation.Models.City>();
+    var featured = ViewBag.Featured as List<AirlineReservation.Models.Flight> ?? new List<AirlineReservation.Models.Flight>();
+}
+<section class="hero">
+    <div class="hero-media" data-parallax style="--hero-img:url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=2400&q=70')"></div>
+    <div class="hero-fallback"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-inner">
+        <span class="eyebrow on-dark reveal">SkyPulse Airlines · Premium global travel</span>
+        <h1 class="reveal">Fly beyond the ordinary.</h1>
+        <p class="hero-sub reveal">Reserve premium cabins across 120+ destinations. Hold any fare free for 14 days, or lock in an instant e-ticket with SkyMiles on every journey.</p>
+        <div class="hero-ctas reveal">
+            <a class="btn btn-light" href="#search">Search flights</a>
+            <a class="btn btn-ghost" asp-controller="Home" asp-action="About">Why SkyPulse</a>
+        </div>
+        <div class="hero-stats reveal">
+            <div class="hero-stat"><b><span data-count="120" data-suffix="+">0</span></b><small>Destinations</small></div>
+            <div class="hero-stat"><b><span data-count="98.6" data-decimals="1" data-suffix="%">0</span></b><small>On-time departure</small></div>
+            <div class="hero-stat"><b><span data-count="4.9" data-decimals="1">0</span></b><small>Guest rating</small></div>
+            <div class="hero-stat"><b><span data-count="14" data-suffix=" days">0</span></b><small>Free fare hold</small></div>
+        </div>
+    </div>
+</section>
+<div class="search-wrap" id="search">
+    <div class="search-widget reveal">
+        <div class="search-tabs" role="tablist" aria-label="Trip type">
+            <button type="button" class="search-tab" data-trip-toggle data-trip="roundtrip" data-return-field="ReturnDate" aria-selected="false">
+                <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>Round trip
+            </button>
+            <button type="button" class="search-tab active" data-trip-toggle data-trip="oneway" data-return-field="ReturnDate" aria-selected="true">
+                <svg viewBox="0 0 24 24"><path d="M2 12l20-8-6 8 6 8-20-8z"/></svg>One way
+            </button>
+        </div>
+        <form asp-controller="Flight" asp-action="Results" method="get" data-skeleton>
+            <div class="search-grid">
+                <div class="field">
+                    <label for="FromCity">From</label>
+                    <select class="input" id="FromCity" name="OriginCityId" required>
+                        <option value="" disabled selected>Select origin</option>
+                        @foreach (var c in cities) { <option value="@c.CityId">@c.CityName</option> }
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="ToCity">To</label>
+                    <select class="input" id="ToCity" name="DestinationCityId" required>
+                        <option value="" disabled selected>Select destination</option>
+                        @foreach (var c in cities) { <option value="@c.CityId">@c.CityName</option> }
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="Depart">Depart</label>
+                    <input class="input" id="Depart" type="date" name="DepartureDate" value="@DateTime.Today.ToString("yyyy-MM-dd")" data-min-today required />
+                </div>
+                <div class="field">
+                    <label for="ReturnDate">Return</label>
+                    <input class="input" id="ReturnDate" type="date" name="ReturnDate" data-min-today />
+                </div>
+                <div class="field">
+                    <label>Travelers</label>
+                    <div class="pax-field">
+                        <select class="input" name="Adults" aria-label="Adults">@for (var i = 1; i <= 6; i++) { <option value="@i" selected="@(i == 1)">@(i) ad</option> }</select>
+                        <select class="input" name="Children" aria-label="Children">@for (var i = 0; i <= 4; i++) { <option value="@i" selected="@(i == 0)">@(i) ch</option> }</select>
+                    </div>
+                </div>
+            </div>
+            <div class="search-actions">
+                <div class="search-perks">
+                    <span><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6L22 9.3l-5.4 4.8L18.2 21 12 17.3 5.8 21l1.6-6.9L2 9.3l7.1-.7z"/></svg>Best-price promise</span>
+                    <span><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V5l-9-4z"/></svg>Free 14-day fare hold</span>
+                    <span><svg viewBox="0 0 24 24"><path d="M20 6h-3V4a2 2 0 00-2-2H9a2 2 0 00-2 2v2H4a2 2 0 00-2 2v11a2 2 0 002 2h16a2 2 0 002-2V8a2 2 0 00-2-2zM9 4h6v2H9V4z"/></svg>No hidden fees</span>
+                </div>
+                <button class="btn btn-primary" type="submit">Search flights</button>
+            </div>
+        </form>
+    </div>
+</div>
+<section class="section section-alt">
+    <div class="page">
+        <div class="section-head reveal">
+            <div><span class="eyebrow">Popular destinations</span><h2>Where our guests are heading</h2><p class="mb-0">Direct routes from our global network — explore and hold your fare today.</p></div>
+            <a class="btn btn-ghost btn-sm" asp-controller="Flight" asp-action="Search">View all routes</a>
+        </div>
+        <div class="dest-grid">
+            <a class="dest-card reveal" asp-controller="Flight" asp-action="Search">
+                <div class="dest-img" style="background-image:url('https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?auto=format&fit=crop&w=800&q=70')"></div>
+                <div class="dest-body"><span class="pill">NON-STOP</span><h3>New York</h3><p>JFK · United States</p>
+                    <div class="dest-price"><span><small>LIVE FARES</small></span><span class="go">Book now →</span></div></div>
+            </a>
+            <a class="dest-card reveal" asp-controller="Flight" asp-action="Search">
+                <div class="dest-img" style="background-image:url('https://images.unsplash.com/photo-1534190760961-74e8c1b5c3da?auto=format&fit=crop&w=800&q=70')"></div>
+                <div class="dest-body"><span class="pill">WEST COAST</span><h3>Los Angeles</h3><p>LAX · United States</p>
+                    <div class="dest-price"><span><small>LIVE FARES</small></span><span class="go">Book now →</span></div></div>
+            </a>
+            <a class="dest-card reveal" asp-controller="Flight" asp-action="Search">
+                <div class="dest-img" style="background-image:url('https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=800&q=70')"></div>
+                <div class="dest-body"><span class="pill">MIDWEST HUB</span><h3>Chicago</h3><p>ORD · United States</p>
+                    <div class="dest-price"><span><small>LIVE FARES</small></span><span class="go">Book now →</span></div></div>
+            </a>
+            <a class="dest-card reveal" asp-controller="Flight" asp-action="Search">
+                <div class="dest-img" style="background-image:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=70')"></div>
+                <div class="dest-body"><span class="pill">SUN ROUTES</span><h3>Miami</h3><p>MIA · United States</p>
+                    <div class="dest-price"><span><small>LIVE FARES</small></span><span class="go">Book now →</span></div></div>
+            </a>
+        </div>
+    </div>
+</section>
+<section class="section">
+    <div class="page">
+        <div class="section-head reveal">
+            <div><span class="eyebrow">Effortless aviation</span><h2>Why fly SkyPulse?</h2><p class="mb-0">Precision scheduling meets passenger flexibility — from research to touchdown.</p></div>
+        </div>
+        <div class="why-grid">
+            <div class="why-card reveal">
+                <div class="why-icon"><svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 10-.7.7l.27.28v.79l5 4.99L20.49 19zm-6 0A4.5 4.5 0 1114 9.5 4.5 4.5 0 019.5 14z"/></svg></div>
+                <h3>Search &amp; compare schedules</h3>
+                <p>Real-time availability with clear, upfront fare conditions and live seat counts on every route.</p>
+            </div>
+            <div class="why-card reveal">
+                <div class="why-icon"><svg viewBox="0 0 24 24"><path d="M21 18v1a1 1 0 01-1 1H4a1 1 0 01-1-1v-1h18zM3 16l.6-2.4A2 2 0 015.5 12h13a2 2 0 011.9 1.6L21 16zM8.5 6h7A1.5 1.5 0 0117 7.5V10H7V7.5A1.5 1.5 0 018.5 6z"/></svg></div>
+                <h3>Block now, decide later</h3>
+                <p>Lock your fare and seats free for 14 days on departures more than two weeks out — zero commitment.</p>
+            </div>
+            <div class="why-card reveal">
+                <div class="why-icon"><svg viewBox="0 0 24 24"><path d="M12 21a9 9 0 119-9 9 9 0 01-9 9zm.5-13.5h-1V12l4 2.4.5-.85-3.5-2.07z"/></svg></div>
+                <h3>Reschedule or auto-refund</h3>
+                <p>Move flights in a few clicks with policy-based refunds calculated and tracked automatically.</p>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="section experience-section">
+    <div class="page">
+        <div class="experience-grid">
+            <div class="experience-media reveal" style="background-image:url('https://images.unsplash.com/photo-1502213575687-2d3c25b7a3f7?auto=format&fit=crop&w=1400&q=70')"></div>
+            <div class="experience-body reveal">
+                <span class="eyebrow">The SkyPulse experience</span>
+                <h2>Travel the way it should feel</h2>
+                <p class="text-muted">From priority handling at the gate to a quieter, more considered cabin — every detail is tuned for rest, focus, and arrival refreshed.</p>
+                <ul class="option-feats">
+                    <li><svg viewBox="0 0 24 24"><path d="M9 16.2l-3.5-3.5-1.4 1.4 4.9 4.9L20.3 7.7l-1.4-1.4z"/></svg>Premium cabins with generous legroom on select routes</li>
+                    <li><svg viewBox="0 0 24 24"><path d="M9 16.2l-3.5-3.5-1.4 1.4 4.9 4.9L20.3 7.7l-1.4-1.4z"/></svg>Priority check-in, security, and boarding in every SkyPulse hub</li>
+                    <li><svg viewBox="0 0 24 24"><path d="M9 16.2l-3.5-3.5-1.4 1.4 4.9 4.9L20.3 7.7l-1.4-1.4z"/></svg>Flexible e-tickets with policy-based refunds, automatically calculated</li>
+                </ul>
+                <div class="experience-cta">
+                    <a class="btn btn-primary" asp-controller="Flight" asp-action="Search">Book a premium fare</a>
+                    <a class="btn btn-ghost" asp-controller="Home" asp-action="About">The SkyPulse standard</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="section section-alt">
+    <div class="page">
+        <div class="section-head reveal"><div><span class="eyebrow">Current offers</span><h2>Upgrade the journey</h2></div></div>
+        <div class="offer-grid">
+            <div class="offer-card reveal" style="background-image:url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1400&q=70')">
+                <span class="offer-tag">LIMITED TIME</span>
+                <span class="eyebrow on-dark">Save up to 25%</span>
+                <h3>Premium cabins on transcontinental routes</h3>
+                <p>Priority boarding, extra legroom, and flexible changes on select fares booked this season.</p>
+                <a class="btn btn-light btn-sm" asp-controller="Flight" asp-action="Search" style="align-self:flex-start">Explore offers</a>
+            </div>
+            <div class="offer-card offer-solid reveal">
+                <span class="offer-tag">ZERO RISK</span>
+                <span class="eyebrow on-dark">SkyPulse exclusive</span>
+                <h3>Free 14-day ticket blocking</h3>
+                <p>Hold any eligible fare without paying. Seats stay reserved while you decide.</p>
+                <a class="btn btn-light btn-sm" asp-controller="Flight" asp-action="Search" style="align-self:flex-start">How it works</a>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="trust-strip">
+    <div class="trust-item"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V5l-9-4z"/></svg>Secure checkout</div>
+    <div class="trust-item"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1010 10A10 10 0 0012 2zm1 15h-2v-2h2zm0-4h-2V7h2z"/></svg>24/7 human support</div>
+    <div class="trust-item"><svg viewBox="0 0 24 24"><path d="M20 6h-3V4a2 2 0 00-2-2H9a2 2 0 00-2 2v2H4a2 2 0 00-2 2v11a2 2 0 002 2h16a2 2 0 002-2V8a2 2 0 00-2-2z"/></svg>Free seat holds</div>
+    <div class="trust-item"><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6L22 9.3l-5.4 4.8L18.2 21 12 17.3 5.8 21l1.6-6.9L2 9.3l7.1-.7z"/></svg>4.9 guest rating</div>
+</div>
+@if (featured.Any())
+{
+    <section class="section">
+        <div class="page">
+            <div class="section-head reveal">
+                <div><span class="eyebrow">Featured fares</span><h2>Live fares from today's schedule</h2><p class="mb-0">Real prices, straight from the system — lock any fare free for 14 days.</p></div>
+                <a class="btn btn-ghost btn-sm" asp-controller="Home" asp-action="Offers">All offers</a>
+            </div>
+            <div class="featured-fares">
+                @foreach (var fx in featured)
+                {
+                    <article class="fare-card reveal">
+                        <span class="fare-code">@(fx.OriginAirport?.Code ?? fx.OriginCity?.CityName) → @(fx.DestinationAirport?.Code ?? fx.DestinationCity?.CityName)</span>
+                        <h3>@fx.OriginCity?.CityName → @fx.DestinationCity?.CityName</h3>
+                        <p>@fx.DepartureDate.ToString("EEE, MMM d, yyyy") · Departs @fx.DepartureTime.ToString(@"hh\:mm") · @fx.Duration</p>
+                        <div class="fare-price">
+                            <span><small>From</small><b>@fx.TicketPrice.ToString("C")</b></span>
+                            <a class="btn btn-primary btn-sm" asp-controller="Booking" asp-action="Create" asp-route-flightId="@fx.FlightId" asp-route-adults="1">Book fare</a>
+                        </div>
+                    </article>
+                }
+            </div>
+        </div>
+    </section>
+}
+<section class="newsletter-section">
+    <div class="page page-narrow">
+        <div class="newsletter reveal in">
+            <span class="eyebrow">SkyPulse insights</span>
+            <h2 style="font-size:1.5rem">Fare alerts, offers &amp; travel inspiration</h2>
+            <p class="text-muted">Join the SkyPulse list for the best available fares, new routes, and seasonal premium offers.</p>
+            <form asp-controller="Newsletter" asp-action="Subscribe" method="post">
+                <input class="input" type="email" name="email" placeholder="you@example.com" required autocomplete="email" aria-label="Email address" />
+                <button class="btn btn-primary" type="submit">Subscribe</button>
+            </form>
+            <p class="hint mb-0">Unsubscribe anytime. We never share your data — PCI-DSS and GDPR compliant.</p>
+        </div>
+    </div>
+</section>

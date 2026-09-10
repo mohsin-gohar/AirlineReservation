@@ -1,0 +1,34 @@
+@model IEnumerable<AirlineReservation.Models.Flight>
+@using AirlineReservation.Models
+@{ ViewData["Title"] = "Flights"; }
+<div class="table-toolbar">
+    <input class="input" type="search" placeholder="Search flights, routes…" data-table-filter="#flightsTable" aria-label="Search flights" />
+    <a class="btn btn-primary btn-sm" asp-action="Create">Add flight</a>
+</div>
+<div class="admin-panel reveal in">
+    <table class="data-table" id="flightsTable">
+        <thead><tr><th>Flight</th><th>Route</th><th>Departure</th><th>Seats (Eco / Bus)</th><th>Fare</th><th>Status</th><th style="text-align:right">Actions</th></tr></thead>
+        <tbody>
+            @foreach (var f in Model ?? Enumerable.Empty<Flight>())
+            {
+                var badge = f.FlightStatus switch { FlightStatus.Scheduled => "badge-scheduled", FlightStatus.Delayed => "badge-rescheduled", FlightStatus.Cancelled => "badge-cancelled", _ => "badge-neutral" };
+                <tr>
+                    <td><b class="mono">@f.FlightNumber</b><br /><small style="color:var(--ink-500);font-size:.78rem">@f.Duration</small></td>
+                    <td>@f.OriginCity?.CityName → @f.DestinationCity?.CityName<br /><small style="color:var(--ink-500);font-size:.78rem">@(f.OriginAirport?.Code) → @(f.DestinationAirport?.Code)</small></td>
+                    <td>@f.DepartureDate.ToShortDateString()<br /><small style="color:var(--ink-500);font-size:.78rem">@f.DepartureTime.ToString(@"hh\:mm") → @f.ArrivalTime.ToString(@"hh\:mm")</small></td>
+                    <td>@f.EconomySeats / @f.BusinessSeats</td>
+                    <td class="price-cell">@f.TicketPrice.ToString("C")</td>
+                    <td><span class="badge-status @badge">@f.FlightStatus</span></td>
+                    <td>
+                        <div class="action-cell">
+                            <a class="icon-btn" asp-action="Edit" asp-route-id="@f.FlightId" aria-label="Edit flight" title="Edit"><svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.8 9.94l-3.75-3.75L3 17.25zM20.7 7.04a1 1 0 000-1.41l-2.34-2.34a1 1 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg></a>
+                            <form asp-action="Delete" method="post" asp-route-id="@f.FlightId" data-confirm data-confirm-message="Delete flight @f.FlightNumber? This is not possible while bookings reference it.">
+                                <button class="icon-btn danger" type="submit" aria-label="Delete flight" title="Delete"><svg viewBox="0 0 24 24"><path d="M6 19a2 2 0 002 2h8a2 2 0 002-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

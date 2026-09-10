@@ -1,0 +1,41 @@
+@model AirlineReservation.Models.User
+@{ ViewData["Title"] = "Edit Profile"; }
+<div class="page page-narrow">
+    <div class="form-page">
+        <span class="eyebrow">Profile settings</span>
+        <h1 style="font-size:1.7rem">Update your details</h1>
+        <p class="text-muted">Keep your contact information current for booking confirmations.</p>
+        <div class="panel">
+            <form method="post" asp-action="Update">
+                <input asp-for="UserId" type="hidden" />
+                <div asp-validation-summary="All" class="validation-summary-errors"></div>
+                <div class="input-group" style="margin-bottom:16px">
+                    <div class="field" style="flex:1">
+                        <label asp-for="FirstName">First name</label>
+                        <input asp-for="FirstName" class="input" />
+                    </div>
+                    <div class="field" style="flex:1">
+                        <label asp-for="LastName">Last name</label>
+                        <input asp-for="LastName" class="input" />
+                    </div>
+                </div>
+                <div class="field" style="margin-bottom:16px">
+                    <label asp-for="Email">Email</label>
+                    <input asp-for="Email" class="input" type="email" />
+                </div>
+                <div class="field" style="margin-bottom:16px">
+                    <label asp-for="PhoneNumber">Phone number</label>
+                    <input asp-for="PhoneNumber" class="input" type="tel" placeholder="+1 555 000 0000" />
+                </div>
+                <div class="field" style="margin-bottom:20px">
+                    <label asp-for="Address">Address</label>
+                    <input asp-for="Address" class="input" placeholder="Street, city, country" />
+                </div>
+                <div style="display:flex;gap:12px">
+                    <button class="btn btn-primary" type="submit">Save changes</button>
+                    <a class="btn btn-ghost" asp-action="Index">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

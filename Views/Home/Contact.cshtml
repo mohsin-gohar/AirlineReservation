@@ -1,0 +1,32 @@
+@{ ViewData["Title"] = "Contact"; }
+<section class="dark-banner compact">
+    <div class="banner-inner">
+        <span class="eyebrow on-dark">We are here to help</span>
+        <h1>Contact SkyPulse</h1>
+        <p>Our global support desk is online 24/7 for rebooking, fare holds, and anything in between.</p>
+    </div>
+</section>
+<div class="page" style="margin-top:calc(-1*var(--s6))">
+    <div class="booking-layout" style="position:relative;z-index:3">
+        <div class="panel reveal in">
+            <span class="eyebrow">Support channels</span>
+            <h2 style="font-size:1.4rem">Talk to a human</h2>
+            <div class="kv"><span>24/7 dispatch desk</span><b><a href="tel:+18008923776">+1 (800) 892-ERGO</a></b></div>
+            <div class="kv"><span>Email support</span><b><a href="mailto:care@skypulse.example">care&#64;skypulse.example</a></b></div>
+            <div class="kv"><span>Corporate office</span><b>One Aviation Plaza, New York</b></div>
+            <div class="kv"><span>Response time</span><b>Under 4 hours, any day</b></div>
+            <a class="btn btn-primary mt-2" href="mailto:care@skypulse.example?subject=SkyPulse%20Support%20Request">Email the support desk</a>
+        </div>
+        <aside class="booking-aside">
+            <div class="aside-card">
+                <h3>Before you write</h3>
+                <ul class="pax-list" style="gap:12px">
+                    <li><svg viewBox="0 0 24 24"><path d="M9 16.2l-3.5-3.5-1.4 1.4 4.9 4.9L20.3 7.7l-1.4-1.4z"/></svg>Have your booking reference handy</li>
+                    <li><svg viewBox="0 0 24 24"><path d="M9 16.2l-3.5-3.5-1.4 1.4 4.9 4.9L20.3 7.7l-1.4-1.4z"/></svg>Ticket status is available instantly online</li>
+                    <li><svg viewBox="0 0 24 24"><path d="M9 16.2l-3.5-3.5-1.4 1.4 4.9 4.9L20.3 7.7l-1.4-1.4z"/></svg>Reschedule anytime from My Bookings</li>
+                </ul>
+                <a class="btn btn-ghost btn-sm" asp-controller="Booking" asp-action="Status" style="width:100%;margin-top:8px">Check ticket status</a>
+            </div>
+        </aside>
+    </div>
+</div>

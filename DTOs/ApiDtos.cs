@@ -1,0 +1,11 @@
+using System.ComponentModel.DataAnnotations;
+using AirlineReservation.Models;
+namespace AirlineReservation.DTOs;
+public record RegisterRequest([Required, EmailAddress] string Email, [Required, MinLength(8)] string Password, [Required] string FirstName, [Required] string LastName);
+public record LoginRequest([Required] string Email, [Required] string Password);
+public record TokenResponse(string Token, DateTime ExpiresAt, string Role);
+public record FlightSearchRequest([Required] string Origin, [Required] string Destination, [Required] DateTime DepartureDate, DateTime? ReturnDate, string SeatClass = "Economy", int Adults = 1, int Children = 0, int Seniors = 0);
+public record BookingRequestDto([Required] int FlightId, int Adults = 1, int Children = 0, int Seniors = 0, string? CreditCardNumber = null, List<PassengerInput>? Passengers = null);
+public record ProfileUpdateRequest(string? Address, string? PhoneNumber, string? PreferredCreditCardNumber, string? FirstName, string? LastName);
+public record SeatAdjustmentRequest(int EconomySeats, int BusinessSeats);
+public record OverrideStatusRequest(BookingStatus Status);

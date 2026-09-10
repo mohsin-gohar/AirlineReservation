@@ -1,0 +1,29 @@
+@model AirlineReservation.Models.Flight
+@{
+    ViewData["Title"] = $"Flight {Model?.FlightNumber}";
+}
+@if (Model != null)
+{
+    <section class="dark-banner compact">
+        <div class="banner-inner">
+            <span class="eyebrow on-dark">Flight details · @Model.FlightNumber</span>
+            <h1>@Model.OriginCity?.CityName → @Model.DestinationCity?.CityName</h1>
+            <p>@Model.DepartureDate.ToString("dddd, MMMM dd, yyyy") · @Model.Duration · Non-stop · @Model.FlightStatus</p>
+        </div>
+    </section>
+    <div class="page">
+        <div class="detail-grid reveal in">
+            <div class="detail-card"><small>Departs</small><b>@Model.DepartureTime.ToString(@"hh\:mm")</b><p>@(Model.OriginAirport?.Code ?? Model.OriginCity?.CityName) · @Model.OriginCity?.CityName</p></div>
+            <div class="detail-card"><small>Arrives</small><b>@Model.ArrivalTime.ToString(@"hh\:mm")</b><p>@(Model.DestinationAirport?.Code ?? Model.DestinationCity?.CityName) · @Model.DestinationCity?.CityName</p></div>
+            <div class="detail-card"><small>Available seats</small><b>@Model.EconomySeats</b><p>Economy · Business @Model.BusinessSeats</p></div>
+            <div class="detail-card"><small>Fare from</small><b>@Model.TicketPrice.ToString("C")</b><p>Per traveler, refundable</p></div>
+        </div>
+        <div class="panel reveal mt-4" style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
+            <div>
+                <span class="eyebrow">Ready when you are</span>
+                <h3 style="margin:0;font-size:1.05rem">Hold this fare free for 14 days, or confirm instantly.</h3>
+            </div>
+            <a class="btn btn-primary" asp-controller="Booking" asp-action="Create" asp-route-flightId="@Model.FlightId" asp-route-adults="1">Continue to booking</a>
+        </div>
+    </div>
+}

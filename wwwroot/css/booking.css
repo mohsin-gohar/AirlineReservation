@@ -1,0 +1,53 @@
+/* SkyPulse — Booking flow: stepper, passenger form, ticket options */
+.steps{display:flex;align-items:center;justify-content:center;gap:0;margin:calc(-1*var(--s8)) auto var(--s6);max-width:720px;position:relative;z-index:3;padding:0 var(--s3)}
+.step{display:flex;flex-direction:column;align-items:center;gap:8px;flex:1;position:relative}
+.step::before,.step::after{content:"";position:absolute;top:20px;height:3px;width:50%;background:var(--line-strong);z-index:0;transition:background .4s}
+.step::before{left:0}
+.step::after{right:0}
+.step:first-child::before,.step:last-child::after{display:none}
+.step.done::before,.step.done::after,.step.current::before{background:var(--blue-500)}
+.step-dot{width:40px;height:40px;border-radius:50%;background:#fff;border:2.5px solid var(--line-strong);display:grid;place-items:center;font-family:var(--font-display);font-weight:800;font-size:.85rem;color:var(--ink-400);z-index:1;transition:all .35s;position:relative}
+.step.current .step-dot{border-color:var(--blue-500);color:var(--blue-600);box-shadow:0 0 0 6px rgba(46,124,246,.15);transform:scale(1.08)}
+.step.done .step-dot{background:var(--blue-500);border-color:var(--blue-500);color:#fff}
+.step-dot svg{width:16px;height:16px;fill:#fff}
+.step small{font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-400);white-space:nowrap}
+.step.current small{color:var(--blue-600)}
+.step.done small{color:var(--ink-700)}
+@media (max-width:575px){.step small{display:none}}
+/* Booking layout */
+.booking-layout{display:grid;grid-template-columns:1.5fr 1fr;gap:var(--s3);align-items:start}
+.booking-main{display:flex;flex-direction:column;gap:var(--s2)}
+.booking-aside{position:sticky;top:calc(var(--nav-h) + var(--s2));display:flex;flex-direction:column;gap:var(--s2)}
+.aside-card{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:var(--s3);box-shadow:var(--shadow-sm)}
+.aside-card h3{font-size:1.02rem;padding-bottom:12px;border-bottom:1px solid var(--line);margin-bottom:14px}
+.fare-row{display:flex;justify-content:space-between;gap:12px;font-size:.92rem;color:var(--ink-700);padding:6px 0}
+.fare-row span:last-child{font-weight:600;color:var(--ink-900);white-space:nowrap}
+.fare-row.total{border-top:1px dashed var(--line-strong);margin-top:10px;padding-top:14px;font-family:var(--font-display);font-size:1.12rem;font-weight:800}
+.fare-row.total span:last-child{color:var(--blue-600)}
+.mini-route{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.mini-route .code{font-family:var(--font-display);font-weight:800;font-size:1.5rem;color:var(--navy-900)}
+.mini-route .dash{flex:1;height:2px;background:repeating-linear-gradient(90deg,var(--line-strong) 0 8px,transparent 8px 14px);position:relative}
+.mini-route .dash svg{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(90deg);width:16px;height:16px;fill:var(--blue-500);background:#fff;padding:2px 0}
+/* Passenger cards */
+.pax-card{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:var(--s3);box-shadow:var(--shadow-xs);margin-bottom:var(--s2)}
+.pax-card-head{display:flex;align-items:center;gap:12px;margin-bottom:var(--s2)}
+.pax-num{width:38px;height:38px;border-radius:12px;background:var(--sky-100);color:var(--blue-600);display:grid;place-items:center;font-family:var(--font-display);font-weight:800;flex-shrink:0}
+.pax-card-head h3{margin:0;font-size:1.02rem}
+.pax-card-head .type{margin-left:auto}
+.pax-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pax-grid .wide{grid-column:1/-1}
+/* Ticket options */
+.option-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--s2)}
+.option-card{background:#fff;border:2px solid var(--line);border-radius:var(--r-lg);padding:var(--s3);display:flex;flex-direction:column;gap:12px;transition:transform .3s,box-shadow .3s,border-color .3s;position:relative}
+.option-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:var(--sky-300)}
+.option-card.recommended{border-color:var(--blue-500)}
+.option-card .flag{position:absolute;top:-12px;left:var(--s3);background:var(--grad-primary);color:#fff;font-size:.66rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:5px 12px;border-radius:99px}
+.option-card h3{margin:0;font-size:1.2rem}
+.option-card .price-line{font-family:var(--font-display);font-size:1.5rem;font-weight:800;color:var(--navy-900)}
+.option-card .price-line small{font-size:.8rem;color:var(--ink-500);font-weight:600}
+.option-feats{list-style:none;margin:0 0 6px;padding:0;display:flex;flex-direction:column;gap:8px;font-size:.88rem;color:var(--ink-700)}
+.option-feats li{display:flex;gap:9px;align-items:flex-start}
+.option-feats svg{width:16px;height:16px;fill:var(--green-600);flex-shrink:0;margin-top:3px}
+.option-note{background:var(--amber-50);border:1px solid #f3ddb8;color:var(--amber-600);font-size:.84rem;font-weight:600;border-radius:10px;padding:10px 14px}
+@media (max-width:991px){.booking-layout{grid-template-columns:1fr}.booking-aside{position:static}.option-grid{grid-template-columns:1fr}}
+@media (max-width:575px){.pax-grid{grid-template-columns:1fr}}

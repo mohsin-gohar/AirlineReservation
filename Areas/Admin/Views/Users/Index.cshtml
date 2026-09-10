@@ -1,0 +1,25 @@
+@model IEnumerable<AirlineReservation.Models.UserWithStats>
+@using AirlineReservation.Models
+@{ ViewData["Title"] = "Users"; }
+<div class="table-toolbar">
+    <input class="input" type="search" placeholder="Search travelers…" data-table-filter="#usersTable" aria-label="Search users" />
+</div>
+<div class="admin-panel reveal in">
+    <table class="data-table" id="usersTable">
+        <thead><tr><th>Traveler</th><th>Email</th><th>Role</th><th>SkyMiles</th><th>Active bookings</th><th>Member since</th></tr></thead>
+        <tbody>
+            @foreach (var u in Model ?? Enumerable.Empty<UserWithStats>())
+            {
+                var roleBadge = u.User.Role switch { UserRole.Admin => "badge-blocked", UserRole.Clerk => "badge-rescheduled", UserRole.Guest => "badge-neutral", _ => "badge-active" };
+                <tr>
+                    <td><div class="user-cell"><span class="avatar-dot">@string.Join("", ((u.User.FirstName ?? "U") + (u.User.LastName ?? "K")).Take(2).ToArray()).ToUpper()</span><span><b>@u.User.FirstName @u.User.LastName</b><small>@u.User.PhoneNumber</small></span></div></td>
+                    <td>@u.User.Email</td>
+                    <td><span class="badge-status @roleBadge">@u.User.Role</span></td>
+                    <td class="price-cell">@u.User.SkyMiles.ToString("N0")</td>
+                    <td>@u.ActiveBookings</td>
+                    <td>@u.User.CreatedAt.ToString("MMM yyyy")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

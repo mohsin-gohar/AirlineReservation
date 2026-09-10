@@ -1,0 +1,44 @@
+@model AirlineReservation.Models.User
+@using AirlineReservation.Models
+@{ ViewData["Title"] = "My Profile"; }
+<div class="page">
+    <div class="profile-hero reveal in">
+        <span class="avatar-dot">@string.Join("", (Model?.FirstName ?? "S").Take(1))@string.Join("", (Model?.LastName ?? "K").Take(1))</span>
+        <div>
+            <h1>@Model?.FirstName @Model?.LastName</h1>
+            <p>@Model?.Email · Member since @Model?.CreatedAt.ToString("MMMM yyyy")</p>
+        </div>
+        <a class="btn btn-light btn-sm edit-link" asp-action="Edit">Edit profile</a>
+    </div>
+    <div class="booking-layout mt-4">
+        <div class="booking-main">
+            <div class="miles-card reveal">
+                <small>SkyMiles balance</small>
+                <b><span data-count="@(Model?.SkyMiles ?? 0)">0</span></b>
+                <p>Earn miles on every confirmed ticket — redeem them on future journeys.</p>
+            </div>
+            <div class="panel reveal">
+                <span class="eyebrow">Contact details</span>
+                <div class="kv"><span>Phone</span><b>@(string.IsNullOrWhiteSpace(Model?.PhoneNumber) ? "Not provided" : Model?.PhoneNumber)</b></div>
+                <div class="kv"><span>Address</span><b>@(string.IsNullOrWhiteSpace(Model?.Address) ? "Not provided" : Model?.Address)</b></div>
+                <div class="kv"><span>Email</span><b>@Model?.Email</b></div>
+            </div>
+        </div>
+        <aside class="booking-aside">
+            <div class="aside-card">
+                <h3>Account</h3>
+                <div class="kv"><span>Membership</span><b>@(Model?.Role == UserRole.Admin ? "Admin" : Model?.Role == UserRole.Clerk ? "Clerk" : "Registered traveler")</b></div>
+                <div class="kv"><span>Status</span><b><span class="badge-status badge-active">Active</span></b></div>
+                <div class="kv"><span>Preferred card</span><b>@(string.IsNullOrWhiteSpace(Model?.PreferredCreditCard) ? "—" : Model?.PreferredCreditCard)</b></div>
+            </div>
+            <div class="aside-card">
+                <h3>Quick actions</h3>
+                <div style="display:flex;flex-direction:column;gap:10px">
+                    <a class="btn btn-ghost btn-sm" asp-controller="Booking" asp-action="MyBookings">My bookings</a>
+                    <a class="btn btn-ghost btn-sm" asp-controller="Booking" asp-action="Status">Ticket status</a>
+                    <a class="btn btn-primary btn-sm" asp-controller="Flight" asp-action="Search">Book a flight</a>
+                </div>
+            </div>
+        </aside>
+    </div>
+</div>

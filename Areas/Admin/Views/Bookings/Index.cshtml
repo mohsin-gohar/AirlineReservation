@@ -1,0 +1,32 @@
+@model IEnumerable<AirlineReservation.Models.Booking>
+@using AirlineReservation.Models
+@{ ViewData["Title"] = "Bookings"; }
+<div class="table-toolbar">
+    <input class="input" type="search" placeholder="Search reference, passenger…" data-table-filter="#bookingsTable" aria-label="Search bookings" />
+    <select class="input" style="max-width:190px" data-table-select="#bookingsTable" aria-label="Filter by status">
+        <option value="all">All statuses</option>
+        <option value="Active">Active</option>
+        <option value="Cancelled">Cancelled</option>
+        <option value="Rescheduled">Rescheduled</option>
+    </select>
+</div>
+<div class="admin-panel reveal in">
+    <table class="data-table" id="bookingsTable">
+        <thead><tr><th>Reference</th><th>Passenger</th><th>Flight</th><th>Departs</th><th>Type</th><th>Status</th><th>Total</th></tr></thead>
+        <tbody>
+            @foreach (var b in Model ?? Enumerable.Empty<Booking>())
+            {
+                var badge = b.BookingStatus switch { BookingStatus.Active => b.BookingType == BookingType.Blocked ? "badge-blocked" : "badge-confirmed", BookingStatus.Cancelled => "badge-cancelled", _ => "badge-rescheduled" };
+                <tr data-status="@b.BookingStatus">
+                    <td><span class="ref-chip">@(b.ConfirmationNumber ?? b.BlockingNumber)</span></td>
+                    <td><div class="user-cell"><span class="avatar-dot">@string.Join("", ((b.User?.FirstName ?? "U") + (b.User?.LastName ?? "K")).Take(2).ToArray()).ToUpper()</span><span><b>@b.User?.FirstName @b.User?.LastName</b><small>@b.User?.Email</small></span></div></td>
+                    <td><b class="mono">@b.Flight?.FlightNumber</b><br /><small style="color:var(--ink-500);font-size:.78rem">@b.Flight?.OriginCity?.CityName → @b.Flight?.DestinationCity?.CityName</small></td>
+                    <td>@b.DepartureDate.ToString("MMM dd, yyyy")<br /><small style="color:var(--ink-500);font-size:.78rem">@b.DepartureDate.ToString("h:mm tt")</small></td>
+                    <td><span class="badge-status @(b.BookingType == BookingType.Blocked ? "badge-blocked" : "badge-scheduled")">@b.BookingType</span></td>
+                    <td><span class="badge-status @badge">@b.BookingStatus</span></td>
+                    <td class="price-cell">@b.TotalPrice.ToString("C")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

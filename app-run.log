@@ -1,0 +1,541 @@
+Using launch settings from F:\.net\AirlineReservation\AirlineReservation\Properties\launchSettings.json...
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://localhost:5099
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: F:\.net\AirlineReservation\AirlineReservation
+warn: Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware[3]
+      Failed to determine the https port for redirect.
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (44ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT 1
+info: Microsoft.EntityFrameworkCore.Migrations[20411]
+      Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (78ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      DECLARE @result int;
+      EXEC @result = sp_getapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session', @LockMode = 'Exclusive';
+      SELECT @result
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (195ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [c].[CityId], [c].[CityName], [c].[Country], [c].[DistanceToNearestServicedCity], [c].[NearestServicedCityId], [c].[StateOrRegion]
+      FROM [Cities] AS [c]
+      ORDER BY [c].[CityName]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (22ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
+      BEGIN
+          CREATE TABLE [__EFMigrationsHistory] (
+              [MigrationId] nvarchar(150) NOT NULL,
+              [ProductVersion] nvarchar(32) NOT NULL,
+              CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+          );
+      END;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (7ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (22ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (42ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [MigrationId], [ProductVersion]
+      FROM [__EFMigrationsHistory]
+      ORDER BY [MigrationId];
+info: Microsoft.EntityFrameworkCore.Migrations[20405]
+      No migrations were applied. The database is already up to date.
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (40ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      DECLARE @result int;
+      EXEC @result = sp_releaseapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session';
+      SELECT @result
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (54ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [u].[UserId], [u].[Address], [u].[Age], [u].[CreatedAt], [u].[Email], [u].[FirstName], [u].[Gender], [u].[LastName], [u].[LoginId], [u].[Password], [u].[PasswordHash], [u].[PhoneNumber], [u].[PreferredCreditCard], [u].[Role], [u].[SkyMiles], [u].[UpdatedAt]
+      FROM [Users] AS [u]
+      WHERE [u].[Email] = N'demo@example.com'
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (905ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[BookingId], [b].[BlockingNumber], [b].[BookingDate], [b].[BookingStatus], [b].[BookingType], [b].[CancellationNumber], [b].[ConfirmationNumber], [b].[CreatedAt], [b].[DepartureDate], [b].[EmergencyContactName], [b].[EmergencyContactPhone], [b].[FlightId], [b].[ItineraryId], [b].[NumberOfAdults], [b].[NumberOfChildren], [b].[NumberOfSeniors], [b].[PaymentReference], [b].[TotalPrice], [b].[UpdatedAt], [b].[UserId], [f].[FlightId], [f].[ArrivalTime], [f].[BusinessSeats], [f].[DepartureDate], [f].[DepartureTime], [f].[DestinationAirportId], [f].[DestinationCityId], [f].[Duration], [f].[EconomySeats], [f].[FlightNumber], [f].[FlightStatus], [f].[OriginAirportId], [f].[OriginCityId], [f].[TicketPrice]
+      FROM [Bookings] AS [b]
+      INNER JOIN [Flights] AS [f] ON [b].[FlightId] = [f].[FlightId]
+      WHERE [b].[BookingType] = 0 AND [b].[BookingStatus] = 0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (60ms) [Parameters=[@now='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+      SELECT [n].[NotificationId], [n].[BookingId], [n].[ScheduledSendDate], [n].[Sent], [n].[SentAt], [n].[Type], [n].[UserId]
+      FROM [Notifications] AS [n]
+      WHERE [n].[Sent] = CAST(0 AS bit) AND [n].[ScheduledSendDate] <= @now
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [c].[CityId], [c].[CityName], [c].[Country], [c].[DistanceToNearestServicedCity], [c].[NearestServicedCityId], [c].[StateOrRegion]
+      FROM [Cities] AS [c]
+      ORDER BY [c].[CityName]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (18ms) [Parameters=[@model_OriginCityId='?' (DbType = Int32), @model_DestinationCityId='?' (DbType = Int32), @model_DepartureDate_Date='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+      SELECT [f].[FlightId], [f].[ArrivalTime], [f].[BusinessSeats], [f].[DepartureDate], [f].[DepartureTime], [f].[DestinationAirportId], [f].[DestinationCityId], [f].[Duration], [f].[EconomySeats], [f].[FlightNumber], [f].[FlightStatus], [f].[OriginAirportId], [f].[OriginCityId], [f].[TicketPrice], [c].[CityId], [c].[CityName], [c].[Country], [c].[DistanceToNearestServicedCity], [c].[NearestServicedCityId], [c].[StateOrRegion], [c0].[CityId], [c0].[CityName], [c0].[Country], [c0].[DistanceToNearestServicedCity], [c0].[NearestServicedCityId], [c0].[StateOrRegion]
+      FROM [Flights] AS [f]
+      INNER JOIN [Cities] AS [c] ON [f].[OriginCityId] = [c].[CityId]
+      INNER JOIN [Cities] AS [c0] ON [f].[DestinationCityId] = [c0].[CityId]
+      WHERE [f].[OriginCityId] = @model_OriginCityId AND [f].[DestinationCityId] = @model_DestinationCityId AND CONVERT(date, [f].[DepartureDate]) = @model_DepartureDate_Date AND [f].[FlightStatus] = 0
+      ORDER BY [f].[DepartureTime]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (19ms) [Parameters=[@id='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(2) [f].[FlightId], [f].[ArrivalTime], [f].[BusinessSeats], [f].[DepartureDate], [f].[DepartureTime], [f].[DestinationAirportId], [f].[DestinationCityId], [f].[Duration], [f].[EconomySeats], [f].[FlightNumber], [f].[FlightStatus], [f].[OriginAirportId], [f].[OriginCityId], [f].[TicketPrice], [c].[CityId], [c].[CityName], [c].[Country], [c].[DistanceToNearestServicedCity], [c].[NearestServicedCityId], [c].[StateOrRegion], [c0].[CityId], [c0].[CityName], [c0].[Country], [c0].[DistanceToNearestServicedCity], [c0].[NearestServicedCityId], [c0].[StateOrRegion]
+      FROM [Flights] AS [f]
+      INNER JOIN [Cities] AS [c] ON [f].[OriginCityId] = [c].[CityId]
+      INNER JOIN [Cities] AS [c0] ON [f].[DestinationCityId] = [c0].[CityId]
+      WHERE [f].[FlightId] = @id
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (5ms) [Parameters=[@email='?' (Size = 150)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(2) [u].[UserId], [u].[Address], [u].[Age], [u].[CreatedAt], [u].[Email], [u].[FirstName], [u].[Gender], [u].[LastName], [u].[LoginId], [u].[Password], [u].[PasswordHash], [u].[PhoneNumber], [u].[PreferredCreditCard], [u].[Role], [u].[SkyMiles], [u].[UpdatedAt]
+      FROM [Users] AS [u]
+      WHERE [u].[Email] = @email
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (9ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Flights] AS [f]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (7ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Bookings] AS [b]
+      WHERE [b].[BookingStatus] = 0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Users] AS [u]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Bookings] AS [b]
+      WHERE [b].[BookingType] = 0 AND [b].[BookingStatus] = 0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (8ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COALESCE(SUM([p].[Amount]), 0.0)
+      FROM [Payments] AS [p]
+      WHERE [p].[TransactionType] = 0 AND [p].[Status] = 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COALESCE(SUM([p].[Amount]), 0.0)
+      FROM [Payments] AS [p]
+      WHERE [p].[TransactionType] = 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (16ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT [b0].[BookingId], [b0].[BlockingNumber], [b0].[BookingDate], [b0].[BookingStatus], [b0].[BookingType], [b0].[CancellationNumber], [b0].[ConfirmationNumber], [b0].[CreatedAt], [b0].[DepartureDate], [b0].[EmergencyContactName], [b0].[EmergencyContactPhone], [b0].[FlightId], [b0].[ItineraryId], [b0].[NumberOfAdults], [b0].[NumberOfChildren], [b0].[NumberOfSeniors], [b0].[PaymentReference], [b0].[TotalPrice], [b0].[UpdatedAt], [b0].[UserId], [u].[UserId], [u].[Address], [u].[Age], [u].[CreatedAt], [u].[Email], [u].[FirstName], [u].[Gender], [u].[LastName], [u].[LoginId], [u].[Password], [u].[PasswordHash], [u].[PhoneNumber], [u].[PreferredCreditCard], [u].[Role], [u].[SkyMiles], [u].[UpdatedAt], [f].[FlightId], [f].[ArrivalTime], [f].[BusinessSeats], [f].[DepartureDate], [f].[DepartureTime], [f].[DestinationAirportId], [f].[DestinationCityId], [f].[Duration], [f].[EconomySeats], [f].[FlightNumber], [f].[FlightStatus], [f].[OriginAirportId], [f].[OriginCityId], [f].[TicketPrice]
+      FROM (
+          SELECT TOP(@p) [b].[BookingId], [b].[BlockingNumber], [b].[BookingDate], [b].[BookingStatus], [b].[BookingType], [b].[CancellationNumber], [b].[ConfirmationNumber], [b].[CreatedAt], [b].[DepartureDate], [b].[EmergencyContactName], [b].[EmergencyContactPhone], [b].[FlightId], [b].[ItineraryId], [b].[NumberOfAdults], [b].[NumberOfChildren], [b].[NumberOfSeniors], [b].[PaymentReference], [b].[TotalPrice], [b].[UpdatedAt], [b].[UserId]
+          FROM [Bookings] AS [b]
+          ORDER BY [b].[BookingDate] DESC
+      ) AS [b0]
+      INNER JOIN [Users] AS [u] ON [b0].[UserId] = [u].[UserId]
+      INNER JOIN [Flights] AS [f] ON [b0].[FlightId] = [f].[FlightId]
+      ORDER BY [b0].[BookingDate] DESC
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [u].[UserId], [u].[Address], [u].[Age], [u].[CreatedAt], [u].[Email], [u].[FirstName], [u].[Gender], [u].[LastName], [u].[LoginId], [u].[Password], [u].[PasswordHash], [u].[PhoneNumber], [u].[PreferredCreditCard], [u].[Role], [u].[SkyMiles], [u].[UpdatedAt]
+      FROM [Users] AS [u]
+      WHERE [u].[UserId] = @p
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (19ms) [Parameters=[@p='?' (DbType = Int32), @userId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT [b0].[BookingId], [b0].[BlockingNumber], [b0].[BookingDate], [b0].[BookingStatus], [b0].[BookingType], [b0].[CancellationNumber], [b0].[ConfirmationNumber], [b0].[CreatedAt], [b0].[DepartureDate], [b0].[EmergencyContactName], [b0].[EmergencyContactPhone], [b0].[FlightId], [b0].[ItineraryId], [b0].[NumberOfAdults], [b0].[NumberOfChildren], [b0].[NumberOfSeniors], [b0].[PaymentReference], [b0].[TotalPrice], [b0].[UpdatedAt], [b0].[UserId], [f].[FlightId], [f].[ArrivalTime], [f].[BusinessSeats], [f].[DepartureDate], [f].[DepartureTime], [f].[DestinationAirportId], [f].[DestinationCityId], [f].[Duration], [f].[EconomySeats], [f].[FlightNumber], [f].[FlightStatus], [f].[OriginAirportId], [f].[OriginCityId], [f].[TicketPrice], [c].[CityId], [c].[CityName], [c].[Country], [c].[DistanceToNearestServicedCity], [c].[NearestServicedCityId], [c].[StateOrRegion], [c0].[CityId], [c0].[CityName], [c0].[Country], [c0].[DistanceToNearestServicedCity], [c0].[NearestServicedCityId], [c0].[StateOrRegion]
+      FROM (
+          SELECT TOP(@p) [b].[BookingId], [b].[BlockingNumber], [b].[BookingDate], [b].[BookingStatus], [b].[BookingType], [b].[CancellationNumber], [b].[ConfirmationNumber], [b].[CreatedAt], [b].[DepartureDate], [b].[EmergencyContactName], [b].[EmergencyContactPhone], [b].[FlightId], [b].[ItineraryId], [b].[NumberOfAdults], [b].[NumberOfChildren], [b].[NumberOfSeniors], [b].[PaymentReference], [b].[TotalPrice], [b].[UpdatedAt], [b].[UserId]
+          FROM [Bookings] AS [b]
+          WHERE [b].[UserId] = @userId
+          ORDER BY [b].[BookingDate] DESC
+      ) AS [b0]
+      INNER JOIN [Flights] AS [f] ON [b0].[FlightId] = [f].[FlightId]
+      INNER JOIN [Cities] AS [c] ON [f].[OriginCityId] = [c].[CityId]
+      INNER JOIN [Cities] AS [c0] ON [f].[DestinationCityId] = [c0].[CityId]
+      ORDER BY [b0].[BookingDate] DESC
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (13ms) [Parameters=[@flightId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(2) [f].[FlightId], [f].[ArrivalTime], [f].[BusinessSeats], [f].[DepartureDate], [f].[DepartureTime], [f].[DestinationAirportId], [f].[DestinationCityId], [f].[Duration], [f].[EconomySeats], [f].[FlightNumber], [f].[FlightStatus], [f].[OriginAirportId], [f].[OriginCityId], [f].[TicketPrice], [c].[CityId], [c].[CityName], [c].[Country], [c].[DistanceToNearestServicedCity], [c].[NearestServicedCityId], [c].[StateOrRegion], [c0].[CityId], [c0].[CityName], [c0].[Country], [c0].[DistanceToNearestServicedCity], [c0].[NearestServicedCityId], [c0].[StateOrRegion]
+      FROM [Flights] AS [f]
+      INNER JOIN [Cities] AS [c] ON [f].[OriginCityId] = [c].[CityId]
+      INNER JOIN [Cities] AS [c0] ON [f].[DestinationCityId] = [c0].[CityId]
+      WHERE [f].[FlightId] = @flightId
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@flightId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(2) [f].[FlightId], [f].[ArrivalTime], [f].[BusinessSeats], [f].[DepartureDate], [f].[DepartureTime], [f].[DestinationAirportId], [f].[DestinationCityId], [f].[Duration], [f].[EconomySeats], [f].[FlightNumber], [f].[FlightStatus], [f].[OriginAirportId], [f].[OriginCityId], [f].[TicketPrice], [c].[CityId], [c].[CityName], [c].[Country], [c].[DistanceToNearestServicedCity], [c].[NearestServicedCityId], [c].[StateOrRegion], [c0].[CityId], [c0].[CityName], [c0].[Country], [c0].[DistanceToNearestServicedCity], [c0].[NearestServicedCityId], [c0].[StateOrRegion]
+      FROM [Flights] AS [f]
+      INNER JOIN [Cities] AS [c] ON [f].[OriginCityId] = [c].[CityId]
+      INNER JOIN [Cities] AS [c0] ON [f].[DestinationCityId] = [c0].[CityId]
+      WHERE [f].[FlightId] = @flightId
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@flightId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(2) [f].[FlightId], [f].[ArrivalTime], [f].[BusinessSeats], [f].[DepartureDate], [f].[DepartureTime], [f].[DestinationAirportId], [f].[DestinationCityId], [f].[Duration], [f].[EconomySeats], [f].[FlightNumber], [f].[FlightStatus], [f].[OriginAirportId], [f].[OriginCityId], [f].[TicketPrice], [c].[CityId], [c].[CityName], [c].[Country], [c].[DistanceToNearestServicedCity], [c].[NearestServicedCityId], [c].[StateOrRegion], [c0].[CityId], [c0].[CityName], [c0].[Country], [c0].[DistanceToNearestServicedCity], [c0].[NearestServicedCityId], [c0].[StateOrRegion]
+      FROM [Flights] AS [f]
+      INNER JOIN [Cities] AS [c] ON [f].[OriginCityId] = [c].[CityId]
+      INNER JOIN [Cities] AS [c0] ON [f].[DestinationCityId] = [c0].[CityId]
+      WHERE [f].[FlightId] = @flightId
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (44ms) [Parameters=[@flightId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(2) [f].[FlightId], [f].[ArrivalTime], [f].[BusinessSeats], [f].[DepartureDate], [f].[DepartureTime], [f].[DestinationAirportId], [f].[DestinationCityId], [f].[Duration], [f].[EconomySeats], [f].[FlightNumber], [f].[FlightStatus], [f].[OriginAirportId], [f].[OriginCityId], [f].[TicketPrice], [c].[CityId], [c].[CityName], [c].[Country], [c].[DistanceToNearestServicedCity], [c].[NearestServicedCityId], [c].[StateOrRegion], [c0].[CityId], [c0].[CityName], [c0].[Country], [c0].[DistanceToNearestServicedCity], [c0].[NearestServicedCityId], [c0].[StateOrRegion]
+      FROM [Flights] AS [f]
+      INNER JOIN [Cities] AS [c] ON [f].[OriginCityId] = [c].[CityId]
+      INNER JOIN [Cities] AS [c0] ON [f].[DestinationCityId] = [c0].[CityId]
+      WHERE [f].[FlightId] = @flightId
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (4ms) [Parameters=[@email='?' (Size = 150)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(2) [u].[UserId], [u].[Address], [u].[Age], [u].[CreatedAt], [u].[Email], [u].[FirstName], [u].[Gender], [u].[LastName], [u].[LoginId], [u].[Password], [u].[PasswordHash], [u].[PhoneNumber], [u].[PreferredCreditCard], [u].[Role], [u].[SkyMiles], [u].[UpdatedAt]
+      FROM [Users] AS [u]
+      WHERE [u].[Email] = @email
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Flights] AS [f]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Bookings] AS [b]
+      WHERE [b].[BookingStatus] = 0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Users] AS [u]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Bookings] AS [b]
+      WHERE [b].[BookingType] = 0 AND [b].[BookingStatus] = 0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COALESCE(SUM([p].[Amount]), 0.0)
+      FROM [Payments] AS [p]
+      WHERE [p].[TransactionType] = 0 AND [p].[Status] = 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COALESCE(SUM([p].[Amount]), 0.0)
+      FROM [Payments] AS [p]
+      WHERE [p].[TransactionType] = 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (6ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT [b0].[BookingId], [b0].[BlockingNumber], [b0].[BookingDate], [b0].[BookingStatus], [b0].[BookingType], [b0].[CancellationNumber], [b0].[ConfirmationNumber], [b0].[CreatedAt], [b0].[DepartureDate], [b0].[EmergencyContactName], [b0].[EmergencyContactPhone], [b0].[FlightId], [b0].[ItineraryId], [b0].[NumberOfAdults], [b0].[NumberOfChildren], [b0].[NumberOfSeniors], [b0].[PaymentReference], [b0].[TotalPrice], [b0].[UpdatedAt], [b0].[UserId], [u].[UserId], [u].[Address], [u].[Age], [u].[CreatedAt], [u].[Email], [u].[FirstName], [u].[Gender], [u].[LastName], [u].[LoginId], [u].[Password], [u].[PasswordHash], [u].[PhoneNumber], [u].[PreferredCreditCard], [u].[Role], [u].[SkyMiles], [u].[UpdatedAt], [f].[FlightId], [f].[ArrivalTime], [f].[BusinessSeats], [f].[DepartureDate], [f].[DepartureTime], [f].[DestinationAirportId], [f].[DestinationCityId], [f].[Duration], [f].[EconomySeats], [f].[FlightNumber], [f].[FlightStatus], [f].[OriginAirportId], [f].[OriginCityId], [f].[TicketPrice]
+      FROM (
+          SELECT TOP(@p) [b].[BookingId], [b].[BlockingNumber], [b].[BookingDate], [b].[BookingStatus], [b].[BookingType], [b].[CancellationNumber], [b].[ConfirmationNumber], [b].[CreatedAt], [b].[DepartureDate], [b].[EmergencyContactName], [b].[EmergencyContactPhone], [b].[FlightId], [b].[ItineraryId], [b].[NumberOfAdults], [b].[NumberOfChildren], [b].[NumberOfSeniors], [b].[PaymentReference], [b].[TotalPrice], [b].[UpdatedAt], [b].[UserId]
+          FROM [Bookings] AS [b]
+          ORDER BY [b].[BookingDate] DESC
+      ) AS [b0]
+      INNER JOIN [Users] AS [u] ON [b0].[UserId] = [u].[UserId]
+      INNER JOIN [Flights] AS [f] ON [b0].[FlightId] = [f].[FlightId]
+      ORDER BY [b0].[BookingDate] DESC
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (5ms) [Parameters=[@flightId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(2) [f].[FlightId], [f].[ArrivalTime], [f].[BusinessSeats], [f].[DepartureDate], [f].[DepartureTime], [f].[DestinationAirportId], [f].[DestinationCityId], [f].[Duration], [f].[EconomySeats], [f].[FlightNumber], [f].[FlightStatus], [f].[OriginAirportId], [f].[OriginCityId], [f].[TicketPrice], [c].[CityId], [c].[CityName], [c].[Country], [c].[DistanceToNearestServicedCity], [c].[NearestServicedCityId], [c].[StateOrRegion], [c0].[CityId], [c0].[CityName], [c0].[Country], [c0].[DistanceToNearestServicedCity], [c0].[NearestServicedCityId], [c0].[StateOrRegion]
+      FROM [Flights] AS [f]
+      INNER JOIN [Cities] AS [c] ON [f].[OriginCityId] = [c].[CityId]
+      INNER JOIN [Cities] AS [c0] ON [f].[DestinationCityId] = [c0].[CityId]
+      WHERE [f].[FlightId] = @flightId
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@flightId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(2) [f].[FlightId], [f].[ArrivalTime], [f].[BusinessSeats], [f].[DepartureDate], [f].[DepartureTime], [f].[DestinationAirportId], [f].[DestinationCityId], [f].[Duration], [f].[EconomySeats], [f].[FlightNumber], [f].[FlightStatus], [f].[OriginAirportId], [f].[OriginCityId], [f].[TicketPrice], [c].[CityId], [c].[CityName], [c].[Country], [c].[DistanceToNearestServicedCity], [c].[NearestServicedCityId], [c].[StateOrRegion], [c0].[CityId], [c0].[CityName], [c0].[Country], [c0].[DistanceToNearestServicedCity], [c0].[NearestServicedCityId], [c0].[StateOrRegion]
+      FROM [Flights] AS [f]
+      INNER JOIN [Cities] AS [c] ON [f].[OriginCityId] = [c].[CityId]
+      INNER JOIN [Cities] AS [c0] ON [f].[DestinationCityId] = [c0].[CityId]
+      WHERE [f].[FlightId] = @flightId
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@flightId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(2) [f].[FlightId], [f].[ArrivalTime], [f].[BusinessSeats], [f].[DepartureDate], [f].[DepartureTime], [f].[DestinationAirportId], [f].[DestinationCityId], [f].[Duration], [f].[EconomySeats], [f].[FlightNumber], [f].[FlightStatus], [f].[OriginAirportId], [f].[OriginCityId], [f].[TicketPrice], [c].[CityId], [c].[CityName], [c].[Country], [c].[DistanceToNearestServicedCity], [c].[NearestServicedCityId], [c].[StateOrRegion], [c0].[CityId], [c0].[CityName], [c0].[Country], [c0].[DistanceToNearestServicedCity], [c0].[NearestServicedCityId], [c0].[StateOrRegion]
+      FROM [Flights] AS [f]
+      INNER JOIN [Cities] AS [c] ON [f].[OriginCityId] = [c].[CityId]
+      INNER JOIN [Cities] AS [c0] ON [f].[DestinationCityId] = [c0].[CityId]
+      WHERE [f].[FlightId] = @flightId
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@flightId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(2) [f].[FlightId], [f].[ArrivalTime], [f].[BusinessSeats], [f].[DepartureDate], [f].[DepartureTime], [f].[DestinationAirportId], [f].[DestinationCityId], [f].[Duration], [f].[EconomySeats], [f].[FlightNumber], [f].[FlightStatus], [f].[OriginAirportId], [f].[OriginCityId], [f].[TicketPrice], [c].[CityId], [c].[CityName], [c].[Country], [c].[DistanceToNearestServicedCity], [c].[NearestServicedCityId], [c].[StateOrRegion], [c0].[CityId], [c0].[CityName], [c0].[Country], [c0].[DistanceToNearestServicedCity], [c0].[NearestServicedCityId], [c0].[StateOrRegion]
+      FROM [Flights] AS [f]
+      INNER JOIN [Cities] AS [c] ON [f].[OriginCityId] = [c].[CityId]
+      INNER JOIN [Cities] AS [c0] ON [f].[DestinationCityId] = [c0].[CityId]
+      WHERE [f].[FlightId] = @flightId
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (9ms) [Parameters=[@UserId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[BookingId], [b].[BlockingNumber], [b].[BookingDate], [b].[BookingStatus], [b].[BookingType], [b].[CancellationNumber], [b].[ConfirmationNumber], [b].[CreatedAt], [b].[DepartureDate], [b].[EmergencyContactName], [b].[EmergencyContactPhone], [b].[FlightId], [b].[ItineraryId], [b].[NumberOfAdults], [b].[NumberOfChildren], [b].[NumberOfSeniors], [b].[PaymentReference], [b].[TotalPrice], [b].[UpdatedAt], [b].[UserId], [f].[FlightId], [f].[ArrivalTime], [f].[BusinessSeats], [f].[DepartureDate], [f].[DepartureTime], [f].[DestinationAirportId], [f].[DestinationCityId], [f].[Duration], [f].[EconomySeats], [f].[FlightNumber], [f].[FlightStatus], [f].[OriginAirportId], [f].[OriginCityId], [f].[TicketPrice], [c].[CityId], [c].[CityName], [c].[Country], [c].[DistanceToNearestServicedCity], [c].[NearestServicedCityId], [c].[StateOrRegion], [c0].[CityId], [c0].[CityName], [c0].[Country], [c0].[DistanceToNearestServicedCity], [c0].[NearestServicedCityId], [c0].[StateOrRegion]
+      FROM [Bookings] AS [b]
+      INNER JOIN [Flights] AS [f] ON [b].[FlightId] = [f].[FlightId]
+      INNER JOIN [Cities] AS [c] ON [f].[OriginCityId] = [c].[CityId]
+      INNER JOIN [Cities] AS [c0] ON [f].[DestinationCityId] = [c0].[CityId]
+      WHERE [b].[UserId] = @UserId
+      ORDER BY [b].[BookingDate] DESC
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Flights] AS [f]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Bookings] AS [b]
+      WHERE [b].[BookingStatus] = 0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Users] AS [u]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Bookings] AS [b]
+      WHERE [b].[BookingType] = 0 AND [b].[BookingStatus] = 0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COALESCE(SUM([p].[Amount]), 0.0)
+      FROM [Payments] AS [p]
+      WHERE [p].[TransactionType] = 0 AND [p].[Status] = 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COALESCE(SUM([p].[Amount]), 0.0)
+      FROM [Payments] AS [p]
+      WHERE [p].[TransactionType] = 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT [b0].[BookingId], [b0].[BlockingNumber], [b0].[BookingDate], [b0].[BookingStatus], [b0].[BookingType], [b0].[CancellationNumber], [b0].[ConfirmationNumber], [b0].[CreatedAt], [b0].[DepartureDate], [b0].[EmergencyContactName], [b0].[EmergencyContactPhone], [b0].[FlightId], [b0].[ItineraryId], [b0].[NumberOfAdults], [b0].[NumberOfChildren], [b0].[NumberOfSeniors], [b0].[PaymentReference], [b0].[TotalPrice], [b0].[UpdatedAt], [b0].[UserId], [u].[UserId], [u].[Address], [u].[Age], [u].[CreatedAt], [u].[Email], [u].[FirstName], [u].[Gender], [u].[LastName], [u].[LoginId], [u].[Password], [u].[PasswordHash], [u].[PhoneNumber], [u].[PreferredCreditCard], [u].[Role], [u].[SkyMiles], [u].[UpdatedAt], [f].[FlightId], [f].[ArrivalTime], [f].[BusinessSeats], [f].[DepartureDate], [f].[DepartureTime], [f].[DestinationAirportId], [f].[DestinationCityId], [f].[Duration], [f].[EconomySeats], [f].[FlightNumber], [f].[FlightStatus], [f].[OriginAirportId], [f].[OriginCityId], [f].[TicketPrice]
+      FROM (
+          SELECT TOP(@p) [b].[BookingId], [b].[BlockingNumber], [b].[BookingDate], [b].[BookingStatus], [b].[BookingType], [b].[CancellationNumber], [b].[ConfirmationNumber], [b].[CreatedAt], [b].[DepartureDate], [b].[EmergencyContactName], [b].[EmergencyContactPhone], [b].[FlightId], [b].[ItineraryId], [b].[NumberOfAdults], [b].[NumberOfChildren], [b].[NumberOfSeniors], [b].[PaymentReference], [b].[TotalPrice], [b].[UpdatedAt], [b].[UserId]
+          FROM [Bookings] AS [b]
+          ORDER BY [b].[BookingDate] DESC
+      ) AS [b0]
+      INNER JOIN [Users] AS [u] ON [b0].[UserId] = [u].[UserId]
+      INNER JOIN [Flights] AS [f] ON [b0].[FlightId] = [f].[FlightId]
+      ORDER BY [b0].[BookingDate] DESC
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (6ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [f].[FlightId], [f].[ArrivalTime], [f].[BusinessSeats], [f].[DepartureDate], [f].[DepartureTime], [f].[DestinationAirportId], [f].[DestinationCityId], [f].[Duration], [f].[EconomySeats], [f].[FlightNumber], [f].[FlightStatus], [f].[OriginAirportId], [f].[OriginCityId], [f].[TicketPrice], [c].[CityId], [c].[CityName], [c].[Country], [c].[DistanceToNearestServicedCity], [c].[NearestServicedCityId], [c].[StateOrRegion], [c0].[CityId], [c0].[CityName], [c0].[Country], [c0].[DistanceToNearestServicedCity], [c0].[NearestServicedCityId], [c0].[StateOrRegion]
+      FROM [Flights] AS [f]
+      INNER JOIN [Cities] AS [c] ON [f].[OriginCityId] = [c].[CityId]
+      INNER JOIN [Cities] AS [c0] ON [f].[DestinationCityId] = [c0].[CityId]
+      ORDER BY [f].[DepartureDate]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (11ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[BookingId], [b].[BlockingNumber], [b].[BookingDate], [b].[BookingStatus], [b].[BookingType], [b].[CancellationNumber], [b].[ConfirmationNumber], [b].[CreatedAt], [b].[DepartureDate], [b].[EmergencyContactName], [b].[EmergencyContactPhone], [b].[FlightId], [b].[ItineraryId], [b].[NumberOfAdults], [b].[NumberOfChildren], [b].[NumberOfSeniors], [b].[PaymentReference], [b].[TotalPrice], [b].[UpdatedAt], [b].[UserId], [u].[UserId], [u].[Address], [u].[Age], [u].[CreatedAt], [u].[Email], [u].[FirstName], [u].[Gender], [u].[LastName], [u].[LoginId], [u].[Password], [u].[PasswordHash], [u].[PhoneNumber], [u].[PreferredCreditCard], [u].[Role], [u].[SkyMiles], [u].[UpdatedAt], [f].[FlightId], [f].[ArrivalTime], [f].[BusinessSeats], [f].[DepartureDate], [f].[DepartureTime], [f].[DestinationAirportId], [f].[DestinationCityId], [f].[Duration], [f].[EconomySeats], [f].[FlightNumber], [f].[FlightStatus], [f].[OriginAirportId], [f].[OriginCityId], [f].[TicketPrice], [c].[CityId], [c].[CityName], [c].[Country], [c].[DistanceToNearestServicedCity], [c].[NearestServicedCityId], [c].[StateOrRegion], [c0].[CityId], [c0].[CityName], [c0].[Country], [c0].[DistanceToNearestServicedCity], [c0].[NearestServicedCityId], [c0].[StateOrRegion]
+      FROM [Bookings] AS [b]
+      INNER JOIN [Users] AS [u] ON [b].[UserId] = [u].[UserId]
+      INNER JOIN [Flights] AS [f] ON [b].[FlightId] = [f].[FlightId]
+      INNER JOIN [Cities] AS [c] ON [f].[OriginCityId] = [c].[CityId]
+      INNER JOIN [Cities] AS [c0] ON [f].[DestinationCityId] = [c0].[CityId]
+      ORDER BY [b].[BookingDate] DESC
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (6ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [u].[UserId], [u].[Address], [u].[Age], [u].[CreatedAt], [u].[Email], [u].[FirstName], [u].[Gender], [u].[LastName], [u].[LoginId], [u].[Password], [u].[PasswordHash], [u].[PhoneNumber], [u].[PreferredCreditCard], [u].[Role], [u].[SkyMiles], [u].[UpdatedAt], (
+          SELECT COUNT(*)
+          FROM [Bookings] AS [b]
+          WHERE [u].[UserId] = [b].[UserId] AND [b].[BookingStatus] = 0) AS [ActiveBookings]
+      FROM [Users] AS [u]
+      ORDER BY [u].[LastName], [u].[FirstName]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[@email='?' (Size = 150)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(2) [u].[UserId], [u].[Address], [u].[Age], [u].[CreatedAt], [u].[Email], [u].[FirstName], [u].[Gender], [u].[LastName], [u].[LoginId], [u].[Password], [u].[PasswordHash], [u].[PhoneNumber], [u].[PreferredCreditCard], [u].[Role], [u].[SkyMiles], [u].[UpdatedAt]
+      FROM [Users] AS [u]
+      WHERE [u].[Email] = @email
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Flights] AS [f]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Bookings] AS [b]
+      WHERE [b].[BookingStatus] = 0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Users] AS [u]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Bookings] AS [b]
+      WHERE [b].[BookingType] = 0 AND [b].[BookingStatus] = 0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COALESCE(SUM([p].[Amount]), 0.0)
+      FROM [Payments] AS [p]
+      WHERE [p].[TransactionType] = 0 AND [p].[Status] = 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COALESCE(SUM([p].[Amount]), 0.0)
+      FROM [Payments] AS [p]
+      WHERE [p].[TransactionType] = 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (6ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT [b0].[BookingId], [b0].[BlockingNumber], [b0].[BookingDate], [b0].[BookingStatus], [b0].[BookingType], [b0].[CancellationNumber], [b0].[ConfirmationNumber], [b0].[CreatedAt], [b0].[DepartureDate], [b0].[EmergencyContactName], [b0].[EmergencyContactPhone], [b0].[FlightId], [b0].[ItineraryId], [b0].[NumberOfAdults], [b0].[NumberOfChildren], [b0].[NumberOfSeniors], [b0].[PaymentReference], [b0].[TotalPrice], [b0].[UpdatedAt], [b0].[UserId], [u].[UserId], [u].[Address], [u].[Age], [u].[CreatedAt], [u].[Email], [u].[FirstName], [u].[Gender], [u].[LastName], [u].[LoginId], [u].[Password], [u].[PasswordHash], [u].[PhoneNumber], [u].[PreferredCreditCard], [u].[Role], [u].[SkyMiles], [u].[UpdatedAt], [f].[FlightId], [f].[ArrivalTime], [f].[BusinessSeats], [f].[DepartureDate], [f].[DepartureTime], [f].[DestinationAirportId], [f].[DestinationCityId], [f].[Duration], [f].[EconomySeats], [f].[FlightNumber], [f].[FlightStatus], [f].[OriginAirportId], [f].[OriginCityId], [f].[TicketPrice]
+      FROM (
+          SELECT TOP(@p) [b].[BookingId], [b].[BlockingNumber], [b].[BookingDate], [b].[BookingStatus], [b].[BookingType], [b].[CancellationNumber], [b].[ConfirmationNumber], [b].[CreatedAt], [b].[DepartureDate], [b].[EmergencyContactName], [b].[EmergencyContactPhone], [b].[FlightId], [b].[ItineraryId], [b].[NumberOfAdults], [b].[NumberOfChildren], [b].[NumberOfSeniors], [b].[PaymentReference], [b].[TotalPrice], [b].[UpdatedAt], [b].[UserId]
+          FROM [Bookings] AS [b]
+          ORDER BY [b].[BookingDate] DESC
+      ) AS [b0]
+      INNER JOIN [Users] AS [u] ON [b0].[UserId] = [u].[UserId]
+      INNER JOIN [Flights] AS [f] ON [b0].[FlightId] = [f].[FlightId]
+      ORDER BY [b0].[BookingDate] DESC
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (4ms) [Parameters=[@flightId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(2) [f].[FlightId], [f].[ArrivalTime], [f].[BusinessSeats], [f].[DepartureDate], [f].[DepartureTime], [f].[DestinationAirportId], [f].[DestinationCityId], [f].[Duration], [f].[EconomySeats], [f].[FlightNumber], [f].[FlightStatus], [f].[OriginAirportId], [f].[OriginCityId], [f].[TicketPrice], [c].[CityId], [c].[CityName], [c].[Country], [c].[DistanceToNearestServicedCity], [c].[NearestServicedCityId], [c].[StateOrRegion], [c0].[CityId], [c0].[CityName], [c0].[Country], [c0].[DistanceToNearestServicedCity], [c0].[NearestServicedCityId], [c0].[StateOrRegion]
+      FROM [Flights] AS [f]
+      INNER JOIN [Cities] AS [c] ON [f].[OriginCityId] = [c].[CityId]
+      INNER JOIN [Cities] AS [c0] ON [f].[DestinationCityId] = [c0].[CityId]
+      WHERE [f].[FlightId] = @flightId
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@flightId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(2) [f].[FlightId], [f].[ArrivalTime], [f].[BusinessSeats], [f].[DepartureDate], [f].[DepartureTime], [f].[DestinationAirportId], [f].[DestinationCityId], [f].[Duration], [f].[EconomySeats], [f].[FlightNumber], [f].[FlightStatus], [f].[OriginAirportId], [f].[OriginCityId], [f].[TicketPrice], [c].[CityId], [c].[CityName], [c].[Country], [c].[DistanceToNearestServicedCity], [c].[NearestServicedCityId], [c].[StateOrRegion], [c0].[CityId], [c0].[CityName], [c0].[Country], [c0].[DistanceToNearestServicedCity], [c0].[NearestServicedCityId], [c0].[StateOrRegion]
+      FROM [Flights] AS [f]
+      INNER JOIN [Cities] AS [c] ON [f].[OriginCityId] = [c].[CityId]
+      INNER JOIN [Cities] AS [c0] ON [f].[DestinationCityId] = [c0].[CityId]
+      WHERE [f].[FlightId] = @flightId
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@flightId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(2) [f].[FlightId], [f].[ArrivalTime], [f].[BusinessSeats], [f].[DepartureDate], [f].[DepartureTime], [f].[DestinationAirportId], [f].[DestinationCityId], [f].[Duration], [f].[EconomySeats], [f].[FlightNumber], [f].[FlightStatus], [f].[OriginAirportId], [f].[OriginCityId], [f].[TicketPrice], [c].[CityId], [c].[CityName], [c].[Country], [c].[DistanceToNearestServicedCity], [c].[NearestServicedCityId], [c].[StateOrRegion], [c0].[CityId], [c0].[CityName], [c0].[Country], [c0].[DistanceToNearestServicedCity], [c0].[NearestServicedCityId], [c0].[StateOrRegion]
+      FROM [Flights] AS [f]
+      INNER JOIN [Cities] AS [c] ON [f].[OriginCityId] = [c].[CityId]
+      INNER JOIN [Cities] AS [c0] ON [f].[DestinationCityId] = [c0].[CityId]
+      WHERE [f].[FlightId] = @flightId
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (21ms) [Parameters=[@UserId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[BookingId], [b].[BlockingNumber], [b].[BookingDate], [b].[BookingStatus], [b].[BookingType], [b].[CancellationNumber], [b].[ConfirmationNumber], [b].[CreatedAt], [b].[DepartureDate], [b].[EmergencyContactName], [b].[EmergencyContactPhone], [b].[FlightId], [b].[ItineraryId], [b].[NumberOfAdults], [b].[NumberOfChildren], [b].[NumberOfSeniors], [b].[PaymentReference], [b].[TotalPrice], [b].[UpdatedAt], [b].[UserId], [f].[FlightId], [f].[ArrivalTime], [f].[BusinessSeats], [f].[DepartureDate], [f].[DepartureTime], [f].[DestinationAirportId], [f].[DestinationCityId], [f].[Duration], [f].[EconomySeats], [f].[FlightNumber], [f].[FlightStatus], [f].[OriginAirportId], [f].[OriginCityId], [f].[TicketPrice], [c].[CityId], [c].[CityName], [c].[Country], [c].[DistanceToNearestServicedCity], [c].[NearestServicedCityId], [c].[StateOrRegion], [c0].[CityId], [c0].[CityName], [c0].[Country], [c0].[DistanceToNearestServicedCity], [c0].[NearestServicedCityId], [c0].[StateOrRegion]
+      FROM [Bookings] AS [b]
+      INNER JOIN [Flights] AS [f] ON [b].[FlightId] = [f].[FlightId]
+      INNER JOIN [Cities] AS [c] ON [f].[OriginCityId] = [c].[CityId]
+      INNER JOIN [Cities] AS [c0] ON [f].[DestinationCityId] = [c0].[CityId]
+      WHERE [b].[UserId] = @UserId
+      ORDER BY [b].[BookingDate] DESC
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (5ms) [Parameters=[@email='?' (Size = 150)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(2) [u].[UserId], [u].[Address], [u].[Age], [u].[CreatedAt], [u].[Email], [u].[FirstName], [u].[Gender], [u].[LastName], [u].[LoginId], [u].[Password], [u].[PasswordHash], [u].[PhoneNumber], [u].[PreferredCreditCard], [u].[Role], [u].[SkyMiles], [u].[UpdatedAt]
+      FROM [Users] AS [u]
+      WHERE [u].[Email] = @email
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Flights] AS [f]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Bookings] AS [b]
+      WHERE [b].[BookingStatus] = 0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Users] AS [u]
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM [Bookings] AS [b]
+      WHERE [b].[BookingType] = 0 AND [b].[BookingStatus] = 0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COALESCE(SUM([p].[Amount]), 0.0)
+      FROM [Payments] AS [p]
+      WHERE [p].[TransactionType] = 0 AND [p].[Status] = 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COALESCE(SUM([p].[Amount]), 0.0)
+      FROM [Payments] AS [p]
+      WHERE [p].[TransactionType] = 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (9ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT [b0].[BookingId], [b0].[BlockingNumber], [b0].[BookingDate], [b0].[BookingStatus], [b0].[BookingType], [b0].[CancellationNumber], [b0].[ConfirmationNumber], [b0].[CreatedAt], [b0].[DepartureDate], [b0].[EmergencyContactName], [b0].[EmergencyContactPhone], [b0].[FlightId], [b0].[ItineraryId], [b0].[NumberOfAdults], [b0].[NumberOfChildren], [b0].[NumberOfSeniors], [b0].[PaymentReference], [b0].[TotalPrice], [b0].[UpdatedAt], [b0].[UserId], [u].[UserId], [u].[Address], [u].[Age], [u].[CreatedAt], [u].[Email], [u].[FirstName], [u].[Gender], [u].[LastName], [u].[LoginId], [u].[Password], [u].[PasswordHash], [u].[PhoneNumber], [u].[PreferredCreditCard], [u].[Role], [u].[SkyMiles], [u].[UpdatedAt], [f].[FlightId], [f].[ArrivalTime], [f].[BusinessSeats], [f].[DepartureDate], [f].[DepartureTime], [f].[DestinationAirportId], [f].[DestinationCityId], [f].[Duration], [f].[EconomySeats], [f].[FlightNumber], [f].[FlightStatus], [f].[OriginAirportId], [f].[OriginCityId], [f].[TicketPrice]
+      FROM (
+          SELECT TOP(@p) [b].[BookingId], [b].[BlockingNumber], [b].[BookingDate], [b].[BookingStatus], [b].[BookingType], [b].[CancellationNumber], [b].[ConfirmationNumber], [b].[CreatedAt], [b].[DepartureDate], [b].[EmergencyContactName], [b].[EmergencyContactPhone], [b].[FlightId], [b].[ItineraryId], [b].[NumberOfAdults], [b].[NumberOfChildren], [b].[NumberOfSeniors], [b].[PaymentReference], [b].[TotalPrice], [b].[UpdatedAt], [b].[UserId]
+          FROM [Bookings] AS [b]
+          ORDER BY [b].[BookingDate] DESC
+      ) AS [b0]
+      INNER JOIN [Users] AS [u] ON [b0].[UserId] = [u].[UserId]
+      INNER JOIN [Flights] AS [f] ON [b0].[FlightId] = [f].[FlightId]
+      ORDER BY [b0].[BookingDate] DESC
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (5ms) [Parameters=[@flightId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(2) [f].[FlightId], [f].[ArrivalTime], [f].[BusinessSeats], [f].[DepartureDate], [f].[DepartureTime], [f].[DestinationAirportId], [f].[DestinationCityId], [f].[Duration], [f].[EconomySeats], [f].[FlightNumber], [f].[FlightStatus], [f].[OriginAirportId], [f].[OriginCityId], [f].[TicketPrice], [c].[CityId], [c].[CityName], [c].[Country], [c].[DistanceToNearestServicedCity], [c].[NearestServicedCityId], [c].[StateOrRegion], [c0].[CityId], [c0].[CityName], [c0].[Country], [c0].[DistanceToNearestServicedCity], [c0].[NearestServicedCityId], [c0].[StateOrRegion]
+      FROM [Flights] AS [f]
+      INNER JOIN [Cities] AS [c] ON [f].[OriginCityId] = [c].[CityId]
+      INNER JOIN [Cities] AS [c0] ON [f].[DestinationCityId] = [c0].[CityId]
+      WHERE [f].[FlightId] = @flightId
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@flightId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(2) [f].[FlightId], [f].[ArrivalTime], [f].[BusinessSeats], [f].[DepartureDate], [f].[DepartureTime], [f].[DestinationAirportId], [f].[DestinationCityId], [f].[Duration], [f].[EconomySeats], [f].[FlightNumber], [f].[FlightStatus], [f].[OriginAirportId], [f].[OriginCityId], [f].[TicketPrice], [c].[CityId], [c].[CityName], [c].[Country], [c].[DistanceToNearestServicedCity], [c].[NearestServicedCityId], [c].[StateOrRegion], [c0].[CityId], [c0].[CityName], [c0].[Country], [c0].[DistanceToNearestServicedCity], [c0].[NearestServicedCityId], [c0].[StateOrRegion]
+      FROM [Flights] AS [f]
+      INNER JOIN [Cities] AS [c] ON [f].[OriginCityId] = [c].[CityId]
+      INNER JOIN [Cities] AS [c0] ON [f].[DestinationCityId] = [c0].[CityId]
+      WHERE [f].[FlightId] = @flightId
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@flightId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(2) [f].[FlightId], [f].[ArrivalTime], [f].[BusinessSeats], [f].[DepartureDate], [f].[DepartureTime], [f].[DestinationAirportId], [f].[DestinationCityId], [f].[Duration], [f].[EconomySeats], [f].[FlightNumber], [f].[FlightStatus], [f].[OriginAirportId], [f].[OriginCityId], [f].[TicketPrice], [c].[CityId], [c].[CityName], [c].[Country], [c].[DistanceToNearestServicedCity], [c].[NearestServicedCityId], [c].[StateOrRegion], [c0].[CityId], [c0].[CityName], [c0].[Country], [c0].[DistanceToNearestServicedCity], [c0].[NearestServicedCityId], [c0].[StateOrRegion]
+      FROM [Flights] AS [f]
+      INNER JOIN [Cities] AS [c] ON [f].[OriginCityId] = [c].[CityId]
+      INNER JOIN [Cities] AS [c0] ON [f].[DestinationCityId] = [c0].[CityId]
+      WHERE [f].[FlightId] = @flightId
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@flightId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(2) [f].[FlightId], [f].[ArrivalTime], [f].[BusinessSeats], [f].[DepartureDate], [f].[DepartureTime], [f].[DestinationAirportId], [f].[DestinationCityId], [f].[Duration], [f].[EconomySeats], [f].[FlightNumber], [f].[FlightStatus], [f].[OriginAirportId], [f].[OriginCityId], [f].[TicketPrice], [c].[CityId], [c].[CityName], [c].[Country], [c].[DistanceToNearestServicedCity], [c].[NearestServicedCityId], [c].[StateOrRegion], [c0].[CityId], [c0].[CityName], [c0].[Country], [c0].[DistanceToNearestServicedCity], [c0].[NearestServicedCityId], [c0].[StateOrRegion]
+      FROM [Flights] AS [f]
+      INNER JOIN [Cities] AS [c] ON [f].[OriginCityId] = [c].[CityId]
+      INNER JOIN [Cities] AS [c0] ON [f].[DestinationCityId] = [c0].[CityId]
+      WHERE [f].[FlightId] = @flightId
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@flightId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(2) [f].[FlightId], [f].[ArrivalTime], [f].[BusinessSeats], [f].[DepartureDate], [f].[DepartureTime], [f].[DestinationAirportId], [f].[DestinationCityId], [f].[Duration], [f].[EconomySeats], [f].[FlightNumber], [f].[FlightStatus], [f].[OriginAirportId], [f].[OriginCityId], [f].[TicketPrice], [c].[CityId], [c].[CityName], [c].[Country], [c].[DistanceToNearestServicedCity], [c].[NearestServicedCityId], [c].[StateOrRegion], [c0].[CityId], [c0].[CityName], [c0].[Country], [c0].[DistanceToNearestServicedCity], [c0].[NearestServicedCityId], [c0].[StateOrRegion]
+      FROM [Flights] AS [f]
+      INNER JOIN [Cities] AS [c] ON [f].[OriginCityId] = [c].[CityId]
+      INNER JOIN [Cities] AS [c0] ON [f].[DestinationCityId] = [c0].[CityId]
+      WHERE [f].[FlightId] = @flightId
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[@request_FlightId='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(2) [f].[FlightId], [f].[ArrivalTime], [f].[BusinessSeats], [f].[DepartureDate], [f].[DepartureTime], [f].[DestinationAirportId], [f].[DestinationCityId], [f].[Duration], [f].[EconomySeats], [f].[FlightNumber], [f].[FlightStatus], [f].[OriginAirportId], [f].[OriginCityId], [f].[TicketPrice]
+      FROM [Flights] AS [f]
+      WHERE [f].[FlightId] = @request_FlightId
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (5ms) [Parameters=[@candidate='?' (Size = 30)], CommandType='Text', CommandTimeout='30']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM [Bookings] AS [b]
+              WHERE [b].[ConfirmationNumber] = @candidate OR [b].[BlockingNumber] = @candidate OR [b].[CancellationNumber] = @candidate) THEN CAST(1 AS bit)
+          ELSE CAST(0 AS bit)
+      END
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [u].[UserId], [u].[Address], [u].[Age], [u].[CreatedAt], [u].[Email], [u].[FirstName], [u].[Gender], [u].[LastName], [u].[LoginId], [u].[Password], [u].[PasswordHash], [u].[PhoneNumber], [u].[PreferredCreditCard], [u].[Role], [u].[SkyMiles], [u].[UpdatedAt]
+      FROM [Users] AS [u]
+      WHERE [u].[UserId] = @p
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (30ms) [Parameters=[@p0='?' (Size = 30), @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (Size = 30), @p5='?' (Size = 30), @p6='?' (DbType = DateTime2), @p7='?' (DbType = DateTime2), @p8='?' (Size = 150), @p9='?' (Size = 25), @p10='?' (DbType = Int32), @p11='?' (DbType = Int32), @p12='?' (DbType = Int32), @p13='?' (DbType = Int32), @p14='?' (DbType = Int32), @p15='?' (Size = 4000), @p16='?' (Precision = 18) (Scale = 2) (DbType = Decimal), @p17='?' (DbType = DateTime2), @p18='?' (DbType = Int32), @p20='?' (DbType = Int32), @p19='?' (DbType = Int32), @p22='?' (DbType = Int32), @p21='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SET NOCOUNT ON;
+      INSERT INTO [Bookings] ([BlockingNumber], [BookingDate], [BookingStatus], [BookingType], [CancellationNumber], [ConfirmationNumber], [CreatedAt], [DepartureDate], [EmergencyContactName], [EmergencyContactPhone], [FlightId], [ItineraryId], [NumberOfAdults], [NumberOfChildren], [NumberOfSeniors], [PaymentReference], [TotalPrice], [UpdatedAt], [UserId])
+      OUTPUT INSERTED.[BookingId]
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15, @p16, @p17, @p18);
+      UPDATE [Flights] SET [EconomySeats] = @p19
+      OUTPUT 1
+      WHERE [FlightId] = @p20;
+      UPDATE [Users] SET [SkyMiles] = @p21
+      OUTPUT 1
+      WHERE [UserId] = @p22;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (15ms) [Parameters=[@p23='?' (DbType = Int32), @p24='?' (DbType = DateTime2), @p25='?' (DbType = Boolean), @p26='?' (DbType = DateTime2), @p27='?' (DbType = Int32), @p28='?' (DbType = Int32), @p29='?' (DbType = Int32), @p30='?' (Size = 50), @p31='?' (Size = 50), @p32='?' (Size = 30), @p33='?' (Size = 30), @p34='?' (Precision = 18) (Scale = 2) (DbType = Decimal), @p35='?' (DbType = Int32), @p36='?' (Size = 4000), @p37='?' (DbType = Int32), @p38='?' (DbType = DateTime2), @p39='?' (DbType = Int32), @p40='?' (DbType = Int32), @p41='?' (DbType = DateTime2), @p42='?' (DbType = Int32), @p43='?' (Size = 4000), @p44='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SET NOCOUNT ON;
+      INSERT INTO [Notifications] ([BookingId], [ScheduledSendDate], [Sent], [SentAt], [Type], [UserId])
+      OUTPUT INSERTED.[NotificationId]
+      VALUES (@p23, @p24, @p25, @p26, @p27, @p28);
+      INSERT INTO [Passengers] ([BookingId], [FirstName], [LastName], [PassengerType], [PassportNumber])
+      OUTPUT INSERTED.[PassengerId]
+      VALUES (@p29, @p30, @p31, @p32, @p33);
+      INSERT INTO [Payments] ([Amount], [BookingId], [CreditCardNumberMasked], [Status], [TransactionDate], [TransactionType])
+      OUTPUT INSERTED.[PaymentId]
+      VALUES (@p34, @p35, @p36, @p37, @p38, @p39);
+      INSERT INTO [SkyMilesTransactions] ([BookingId], [Date], [MilesChange], [Reason], [UserId])
+      OUTPUT INSERTED.[SkyMilesTransactionId]
+      VALUES (@p40, @p41, @p42, @p43, @p44);
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (67ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [b].[BookingId], [b].[BlockingNumber], [b].[BookingDate], [b].[BookingStatus], [b].[BookingType], [b].[CancellationNumber], [b].[ConfirmationNumber], [b].[CreatedAt], [b].[DepartureDate], [b].[EmergencyContactName], [b].[EmergencyContactPhone], [b].[FlightId], [b].[ItineraryId], [b].[NumberOfAdults], [b].[NumberOfChildren], [b].[NumberOfSeniors], [b].[PaymentReference], [b].[TotalPrice], [b].[UpdatedAt], [b].[UserId], [f].[FlightId], [f].[ArrivalTime], [f].[BusinessSeats], [f].[DepartureDate], [f].[DepartureTime], [f].[DestinationAirportId], [f].[DestinationCityId], [f].[Duration], [f].[EconomySeats], [f].[FlightNumber], [f].[FlightStatus], [f].[OriginAirportId], [f].[OriginCityId], [f].[TicketPrice]
+      FROM [Bookings] AS [b]
+      INNER JOIN [Flights] AS [f] ON [b].[FlightId] = [f].[FlightId]
+      WHERE [b].[BookingType] = 0 AND [b].[BookingStatus] = 0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (8ms) [Parameters=[@now='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+      SELECT [n].[NotificationId], [n].[BookingId], [n].[ScheduledSendDate], [n].[Sent], [n].[SentAt], [n].[Type], [n].[UserId]
+      FROM [Notifications] AS [n]
+      WHERE [n].[Sent] = CAST(0 AS bit) AND [n].[ScheduledSendDate] <= @now
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (7ms) [Parameters=[@p2='?' (DbType = Int32), @p0='?' (DbType = Boolean), @p1='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      UPDATE [Notifications] SET [Sent] = @p0, [SentAt] = @p1
+      OUTPUT 1
+      WHERE [NotificationId] = @p2;

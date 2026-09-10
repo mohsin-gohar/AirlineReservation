@@ -1,0 +1,73 @@
+@model AirlineReservation.Models.Flight
+@using AirlineReservation.Models
+@{ ViewData["Title"] = "Add Flight"; }
+<span class="eyebrow">Flight management</span>
+<h2 style="margin-bottom:var(--s3)">Add a new flight</h2>
+<div class="form-card">
+    <form method="post">
+        <div asp-validation-summary="All" class="validation-summary-errors"></div>
+        <div class="form-grid">
+            <div class="field">
+                <label asp-for="FlightNumber">Flight number</label>
+                <input asp-for="FlightNumber" class="input" placeholder="e.g. AR707" />
+                <span asp-validation-for="FlightNumber" class="text-danger"></span>
+            </div>
+            <div class="field">
+                <label asp-for="TicketPrice">Ticket price</label>
+                <input asp-for="TicketPrice" class="input" type="number" step="0.01" min="1" />
+                <span asp-validation-for="TicketPrice" class="text-danger"></span>
+            </div>
+            <div class="form-section-title">Route</div>
+            <div class="field">
+                <label asp-for="OriginCityId">Origin city</label>
+                <select asp-for="OriginCityId" class="input" asp-items="@(new SelectList(ViewBag.Cities, "CityId", "CityName"))">
+                    <option value="">Select origin</option>
+                </select>
+                <span asp-validation-for="OriginCityId" class="text-danger"></span>
+            </div>
+            <div class="field">
+                <label asp-for="DestinationCityId">Destination city</label>
+                <select asp-for="DestinationCityId" class="input" asp-items="@(new SelectList(ViewBag.Cities, "CityId", "CityName"))">
+                    <option value="">Select destination</option>
+                </select>
+                <span asp-validation-for="DestinationCityId" class="text-danger"></span>
+            </div>
+            <div class="form-section-title">Schedule</div>
+            <div class="field">
+                <label asp-for="DepartureDate">Departure date</label>
+                <input asp-for="DepartureDate" class="input" type="date" data-min-today />
+                <span asp-validation-for="DepartureDate" class="text-danger"></span>
+            </div>
+            <div class="field">
+                <label asp-for="DepartureTime">Departure time</label>
+                <input asp-for="DepartureTime" class="input" type="time" />
+            </div>
+            <div class="field">
+                <label asp-for="ArrivalTime">Arrival time</label>
+                <input asp-for="ArrivalTime" class="input" type="time" />
+            </div>
+            <div class="field">
+                <label asp-for="Duration">Duration</label>
+                <input asp-for="Duration" class="input" placeholder="e.g. 1h 35m" />
+            </div>
+            <div class="form-section-title">Capacity</div>
+            <div class="field">
+                <label asp-for="EconomySeats">Economy seats</label>
+                <input asp-for="EconomySeats" class="input" type="number" min="0" />
+                <span asp-validation-for="EconomySeats" class="text-danger"></span>
+            </div>
+            <div class="field">
+                <label asp-for="BusinessSeats">Business seats</label>
+                <input asp-for="BusinessSeats" class="input" type="number" min="0" />
+            </div>
+            <div class="field">
+                <label asp-for="FlightStatus">Status</label>
+                <select asp-for="FlightStatus" class="input" asp-items="Html.GetEnumSelectList<FlightStatus>()"></select>
+            </div>
+        </div>
+        <div style="display:flex;gap:12px;margin-top:var(--s3)">
+            <button class="btn btn-primary" type="submit">Save flight</button>
+            <a class="btn btn-ghost" asp-action="Index">Cancel</a>
+        </div>
+    </form>
+</div>

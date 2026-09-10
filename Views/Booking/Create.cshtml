@@ -1,0 +1,100 @@
+@model (AirlineReservation.Models.BookingRequest Request, AirlineReservation.Models.Flight Flight)
+@{
+    ViewData["Title"] = "Passenger Details";
+    var req = Model.Request;
+    var flight = Model.Flight;
+    var adults = req.NumberOfAdults;
+    var total = flight.TicketPrice * req.PassengerCount;
+}
+<section class="dark-banner compact">
+    <div class="banner-inner">
+        <span class="eyebrow on-dark">Booking · @flight.FlightNumber</span>
+        <h1>Who's traveling?</h1>
+        <p>@flight.OriginCity?.CityName (@(flight.OriginAirport?.Code)) → @flight.DestinationCity?.CityName (@(flight.DestinationAirport?.Code)) · @flight.DepartureDate.ToString("dddd, MMMM dd, yyyy")</p>
+    </div>
+</section>
+<div class="steps" aria-label="Booking progress">
+    <div class="step done"><span class="step-dot"><svg viewBox="0 0 24 24"><path d="M9 16.2l-3.5-3.5-1.4 1.4 4.9 4.9L20.3 7.7l-1.4-1.4z"/></svg></span><small>Flight</small></div>
+    <div class="step current"><span class="step-dot">2</span><small>Passenger</small></div>
+    <div class="step"><span class="step-dot">3</span><small>Review</small></div>
+    <div class="step"><span class="step-dot">4</span><small>Confirmation</small></div>
+</div>
+<div class="page">
+    <form asp-action="PassengerDetails" method="post">
+        <input asp-for="Request.FlightId" type="hidden" />
+        <input asp-for="Request.NumberOfAdults" type="hidden" />
+        <input asp-for="Request.NumberOfChildren" type="hidden" />
+        <input asp-for="Request.NumberOfSeniors" type="hidden" />
+        <div asp-validation-summary="All" class="validation-summary-errors"></div>
+        <div class="booking-layout">
+            <div class="booking-main">
+                @for (var i = 0; i < req.Passengers.Count; i++)
+                {
+                    var type = i < adults ? "Adult" : i < adults + req.NumberOfChildren ? "Child" : "Senior";
+                    <div class="pax-card reveal">
+                        <div class="pax-card-head">
+                            <span class="pax-num">@(i + 1)</span>
+                            <h3>@type @(i + 1)</h3>
+                            <span class="badge-status badge-scheduled type">@type</span>
+                        </div>
+                        <div class="pax-grid">
+                            <div class="field">
+                                <label asp-for="Request.Passengers[i].FirstName">First name</label>
+                                <input asp-for="Request.Passengers[i].FirstName" class="input" placeholder="As shown on ID" />
+                                <span asp-validation-for="Request.Passengers[i].FirstName" class="text-danger"></span>
+                            </div>
+                            <div class="field">
+                                <label asp-for="Request.Passengers[i].LastName">Last name</label>
+                                <input asp-for="Request.Passengers[i].LastName" class="input" placeholder="As shown on ID" />
+                                <span asp-validation-for="Request.Passengers[i].LastName" class="text-danger"></span>
+                            </div>
+                            <div class="field wide">
+                                <label asp-for="Request.Passengers[i].PassportNumber">Passport number <span class="hint" style="text-transform:none;letter-spacing:0">(optional)</span></label>
+                                <input asp-for="Request.Passengers[i].PassportNumber" class="input" placeholder="e.g. X1234567" />
+                            </div>
+                        </div>
+                    </div>
+                }
+                <div class="pax-card reveal">
+                    <div class="pax-card-head">
+                        <span class="pax-num"><svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:currentColor"><path d="M12 12a5 5 0 10-5-5 5 5 0 005 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z"/></svg></span>
+                        <h3>Emergency contact</h3>
+                    </div>
+                    <div class="pax-grid">
+                        <div class="field">
+                            <label asp-for="Request.EmergencyContactName">Contact name</label>
+                            <input asp-for="Request.EmergencyContactName" class="input" placeholder="Full name" />
+                        </div>
+                        <div class="field">
+                            <label asp-for="Request.EmergencyContactPhone">Contact phone</label>
+                            <input asp-for="Request.EmergencyContactPhone" class="input" placeholder="+1 555 000 0000" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <aside class="booking-aside">
+                <div class="aside-card">
+                    <h3>Trip summary</h3>
+                    <div class="mini-route">
+                        <span class="code">@(flight.OriginAirport?.Code ?? flight.OriginCity?.CityName)</span>
+                        <span class="dash"><svg viewBox="0 0 24 24"><path d="M21.5 15.5l-8.1-4.7V4.8c0-.9-.6-2.3-1.4-2.3s-1.4 1.4-1.4 2.3v6L2.5 15.5v2.1l8.1-2.5v4.6l-2.2 1.6v1.5l3.6-1 3.6 1v-1.5l-2.2-1.6v-4.6l8.1 2.5v-2.1z"/></svg></span>
+                        <span class="code">@(flight.DestinationAirport?.Code ?? flight.DestinationCity?.CityName)</span>
+                    </div>
+                    <div class="fare-row"><span>Flight</span><span>SkyPulse @flight.FlightNumber</span></div>
+                    <div class="fare-row"><span>Date</span><span>@flight.DepartureDate.ToString("MMM dd, yyyy")</span></div>
+                    <div class="fare-row"><span>Departure</span><span>@flight.DepartureTime.ToString(@"hh\:mm")</span></div>
+                    <div class="fare-row"><span>Duration</span><span>@flight.Duration</span></div>
+                    <div class="fare-row"><span>Travelers</span><span>@req.PassengerCount</span></div>
+                </div>
+                <div class="aside-card">
+                    <h3>Fare breakdown</h3>
+                    <div class="fare-row"><span>@flight.TicketPrice.ToString("C") × @req.PassengerCount</span><span>@total.ToString("C")</span></div>
+                    <div class="fare-row"><span>Taxes &amp; fees</span><span>Included</span></div>
+                    <div class="fare-row total"><span>Total</span><span>@total.ToString("C")</span></div>
+                    <button class="btn btn-primary mt-2" type="submit" style="width:100%">Continue to review</button>
+                    <p class="hint mt-2 mb-0" style="text-align:center">Seats are confirmed on the next step.</p>
+                </div>
+            </aside>
+        </div>
+    </form>
+</div>

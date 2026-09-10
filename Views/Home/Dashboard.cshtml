@@ -1,0 +1,54 @@
+@model (AirlineReservation.Models.User User, System.Collections.Generic.List<AirlineReservation.Models.Booking> Bookings)
+@using AirlineReservation.Models
+@{ ViewData["Title"] = "Passenger Dashboard"; }
+<section class="dark-banner compact">
+    <div class="banner-inner">
+        <span class="eyebrow on-dark">Passenger portal</span>
+        <h1>Welcome back, @(Model.User?.FirstName ?? "traveler")</h1>
+        <p>Manage your journeys, fare holds, and SkyMiles in one place.</p>
+    </div>
+</div>
+<div class="page" style="margin-top:calc(-1*var(--s6))">
+    <div class="kpi-grid reveal in" style="position:relative;z-index:3">
+        <div class="kpi"><span class="ico"><svg viewBox="0 0 24 24"><path d="M20 6h-3V4a2 2 0 00-2-2H9a2 2 0 00-2 2v2H4a2 2 0 00-2 2v11a2 2 0 002 2h16a2 2 0 002-2V8a2 2 0 00-2-2z"/></svg></span><span><b>@(Model.Bookings?.Count ?? 0)</b><small>Total bookings</small></span></div>
+        <div class="kpi"><span class="ico"><svg viewBox="0 0 24 24"><path d="M9 16.2l-3.5-3.5-1.4 1.4 4.9 4.9L20.3 7.7l-1.4-1.4z"/></svg></span><span><b>@(Model.Bookings?.Count(b => b.BookingStatus == BookingStatus.Active) ?? 0)</b><small>Active</small></span></div>
+        <div class="kpi"><span class="ico"><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6L22 9.3l-5.4 4.8L18.2 21 12 17.3 5.8 21l1.6-6.9L2 9.3l7.1-.7z"/></svg></span><span><b><span data-count="@(Model.User?.SkyMiles ?? 0)">0</span></b><small>SkyMiles</small></span></div>
+    </div>
+    <div class="admin-panel reveal">
+        <div class="panel-head">
+            <h3>Recent bookings</h3>
+            <a class="btn btn-primary btn-sm" asp-controller="Flight" asp-action="Search">Book a flight</a>
+        </div>
+        @if (Model.Bookings == null || Model.Bookings.Count == 0)
+        {
+            <div class="panel-body">
+                <div class="empty-state" style="border:0">
+                    <div class="icon"><svg viewBox="0 0 24 24"><path d="M21.5 15.5l-8.1-4.7V4.8c0-.9-.6-2.3-1.4-2.3s-1.4 1.4-1.4 2.3v6L2.5 15.5v2.1l8.1-2.5v4.6l-2.2 1.6v1.5l3.6-1 3.6 1v-1.5l-2.2-1.6v-4.6l8.1 2.5v-2.1z"/></svg></div>
+                    <h3>No journeys yet</h3>
+                    <p>Your bookings will appear here once you make your first reservation.</p>
+                    <a class="btn btn-primary btn-sm" asp-controller="Flight" asp-action="Search">Find a flight</a>
+                </div>
+            </div>
+        }
+        else
+        {
+            <table class="data-table">
+                <thead><tr><th>Reference</th><th>Route</th><th>Departure</th><th>Status</th><th>Total</th><th></th></tr></thead>
+                <tbody>
+                    @foreach (var b in Model.Bookings)
+                    {
+                        var badge = b.BookingStatus switch { BookingStatus.Active => b.BookingType == BookingType.Blocked ? "badge-blocked" : "badge-confirmed", BookingStatus.Cancelled => "badge-cancelled", _ => "badge-rescheduled" };
+                        <tr>
+                            <td><span class="ref-chip">@(b.ConfirmationNumber ?? b.BlockingNumber)</span></td>
+                            <td>@b.Flight?.OriginCity?.CityName → @b.Flight?.DestinationCity?.CityName</td>
+                            <td>@b.DepartureDate.ToString("MMM dd, yyyy")</td>
+                            <td><span class="badge-status @badge">@b.BookingStatus</span></td>
+                            <td class="price-cell">@b.TotalPrice.ToString("C")</td>
+                            <td><a class="btn btn-ghost btn-sm" asp-controller="Booking" asp-action="Status" asp-route-id="@b.BookingId">View</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>

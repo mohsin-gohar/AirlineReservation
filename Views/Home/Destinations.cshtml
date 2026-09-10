@@ -1,0 +1,48 @@
+@{
+    ViewData["Title"] = "Destinations";
+    var cities = ViewBag.Cities as List<AirlineReservation.Models.City> ?? new List<AirlineReservation.Models.City>();
+}
+<section class="dark-banner compact">
+    <div class="banner-inner">
+        <span class="eyebrow on-dark">Explore the network</span>
+        <h1>Destinations</h1>
+        <p>Every SkyPulse route begins here — search by airport or explore what's available from each gateway.</p>
+    </div>
+</section>
+<div class="page" style="margin-top:calc(-1*var(--s6))">
+    @if (!cities.Any())
+    {
+        <div class="empty-state reveal in">
+            <div class="icon"><svg viewBox="0 0 24 24"><path d="M21.5 15.5l-8.1-4.7V4.8c0-.9-.6-2.3-1.4-2.3s-1.4 1.4-1.4 2.3v6L2.5 15.5v2.1l8.1-2.5v4.6l-2.2 1.6v1.5l3.6-1 3.6 1v-1.5l-2.2-1.6v-4.6l8.1 2.5v-2.1z"/></svg></div>
+            <h3>Destinations are being loaded</h3>
+            <p>Our route network isn't available right now. Please check back shortly.</p>
+        </div>
+    }
+    else
+    {
+        <div class="dest-grid" style="position:relative;z-index:3">
+            @foreach (var c in cities)
+            {
+                var code = c.Airports.FirstOrDefault()?.Code ?? "—";
+                <article class="dest-card reveal in">
+                    <div class="dest-head">
+                        <span class="code">@code</span>
+                        <span class="eyebrow">@(string.IsNullOrWhiteSpace(c.Country) ? "SkyPulse gateway" : c.Country)</span>
+                        <h3>@c.CityName</h3>
+                    </div>
+                    <p class="dest-meta">@(c.Airports.Count > 0 ? string.Join(" · ", c.Airports.Select(a => a.Name)) : "Direct SkyPulse service")</p>
+                    <div class="dest-actions">
+                        <a class="btn btn-primary btn-sm" asp-controller="Flight" asp-action="Search">Book now</a>
+                        <a class="btn btn-ghost btn-sm" asp-controller="Flight" asp-action="Search">All fares</a>
+                    </div>
+                </article>
+            }
+        </div>
+        <div class="panel reveal" style="margin-top:var(--s6)">
+            <span class="eyebrow">Looking for more?</span>
+            <h3 style="font-size:1.05rem">Search every route in one place</h3>
+            <p class="text-muted mb-0" style="font-size:.92rem">Use the flight search to compare schedules, fares, and seat availability across the full SkyPulse network.</p>
+            <a class="btn btn-primary btn-sm mt-2" asp-controller="Flight" asp-action="Search">Search flights</a>
+        </div>
+    }
+</div>

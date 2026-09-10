@@ -1,0 +1,45 @@
+@model AirlineReservation.Models.RescheduleViewModel
+@using AirlineReservation.Models
+@{ ViewData["Title"] = "Reschedule Booking"; }
+<section class="dark-banner compact">
+    <div class="banner-inner">
+        <span class="eyebrow on-dark">Change of plans? · @(Model.Reference ?? $"#{Model.BookingId}")</span>
+        <h1>Reschedule your trip</h1>
+        <p>@Model.Route · currently departing @Model.CurrentDeparture.ToString("dddd, MMMM dd, yyyy")</p>
+    </div>
+</section>
+<div class="page page-narrow">
+    <div class="resched-note reveal">Pick a new flight below. Seats on your current flight are released and your passengers move to the new itinerary automatically.</div>
+    @if (Model.AlternativeFlights.Count == 0)
+    {
+        <div class="empty-state reveal in">
+            <div class="icon"><svg viewBox="0 0 24 24"><path d="M21.5 15.5l-8.1-4.7V4.8c0-.9-.6-2.3-1.4-2.3s-1.4 1.4-1.4 2.3v6L2.5 15.5v2.1l8.1-2.5v4.6l-2.2 1.6v1.5l3.6-1 3.6 1v-1.5l-2.2-1.6v-4.6l8.1 2.5v-2.1z"/></svg></div>
+            <h3>No alternative flights available</h3>
+            <p>There are no other scheduled flights with enough seats on this route right now. Check back later or contact support.</p>
+            <a class="btn btn-ghost btn-sm" asp-action="MyBookings">Back to my bookings</a>
+        </div>
+    }
+    else
+    {
+        <form asp-action="Reschedule" method="post" asp-route-id="@Model.BookingId">
+            @foreach (var f in Model.AlternativeFlights)
+            {
+                <label class="alt-option reveal">
+                    <input type="radio" name="newFlightId" value="@f.FlightId" required />
+                    <div class="alt-row">
+                        <span class="radio-dot" aria-hidden="true"></span>
+                        <div>
+                            <b style="font-family:var(--font-display)">SkyPulse @f.FlightNumber</b>
+                            <small style="display:block;color:var(--ink-500);font-size:.82rem">@f.DepartureDate.ToString("ddd, MMM dd, yyyy") · @f.DepartureTime.ToString(@"hh\:mm") → @f.ArrivalTime.ToString(@"hh\:mm") · @f.Duration</small>
+                        </div>
+                        <span class="price">@f.TicketPrice.ToString("C")</span>
+                    </div>
+                </label>
+            }
+            <div style="display:flex;gap:12px;flex-wrap:wrap">
+                <button class="btn btn-primary" type="submit" id="rescheduleSubmit" disabled>Confirm new flight</button>
+                <a class="btn btn-ghost" asp-action="MyBookings">Keep current flight</a>
+            </div>
+        </form>
+    }
+</div>
