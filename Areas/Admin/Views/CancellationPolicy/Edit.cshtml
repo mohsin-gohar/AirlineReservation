@@ -1,0 +1,34 @@
+@model AirlineReservation.Models.CancellationRule
+@{ ViewData["Title"] = "Edit Cancellation Policy"; }
+
+<span class="eyebrow">Policy management</span>
+<h2>Edit refund rule</h2>
+
+<div class="form-card">
+    <form asp-action="Edit" method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="CancellationRuleId" />
+        <div asp-validation-summary="All" class="validation-summary-errors"></div>
+        <div class="form-grid">
+            <div class="field">
+                <label asp-for="MinimumDaysBeforeDeparture">Minimum Days Before Departure</label>
+                <input asp-for="MinimumDaysBeforeDeparture" class="input" type="number" min="0" required />
+                <span asp-validation-for="MinimumDaysBeforeDeparture" class="text-danger"></span>
+            </div>
+            <div class="field">
+                <label asp-for="MaximumDaysBeforeDeparture">Maximum Days Before Departure (Optional)</label>
+                <input asp-for="MaximumDaysBeforeDeparture" class="input" type="number" min="0" placeholder="Leave blank if no upper limit" />
+                <span asp-validation-for="MaximumDaysBeforeDeparture" class="text-danger"></span>
+            </div>
+            <div class="field wide">
+                <label asp-for="RefundPercentage">Refund Percentage (%)</label>
+                <input asp-for="RefundPercentage" class="input" type="number" step="0.01" min="0" max="100" required />
+                <span asp-validation-for="RefundPercentage" class="text-danger"></span>
+            </div>
+        </div>
+        <div style="display:flex;gap:12px;margin-top:var(--s3)">
+            <button class="btn btn-primary" type="submit">Update Policy Rule</button>
+            <a class="btn btn-ghost" asp-action="Index">Cancel</a>
+        </div>
+    </form>
+</div>
