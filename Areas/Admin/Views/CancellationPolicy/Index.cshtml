@@ -1,0 +1,43 @@
+@model IEnumerable<AirlineReservation.Models.CancellationRule>
+@{ ViewData["Title"] = "Cancellation Policies"; }
+
+<div class="table-toolbar">
+    <input class="input" type="search" placeholder="Search rules…" data-table-filter="#rulesTable" aria-label="Search rules" />
+    <a class="btn btn-primary btn-sm" asp-action="Create">Add Rule</a>
+</div>
+
+<div class="admin-panel reveal in">
+    <table class="data-table" id="rulesTable">
+        <thead>
+            <tr>
+                <th>Min Days Before Departure</th>
+                <th>Max Days Before Departure</th>
+                <th>Refund Percentage</th>
+                <th style="text-align:right">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var r in Model ?? Enumerable.Empty<AirlineReservation.Models.CancellationRule>())
+            {
+                <tr>
+                    <td><b>@r.MinimumDaysBeforeDeparture</b> days</td>
+                    <td>@(r.MaximumDaysBeforeDeparture.HasValue ? $"{r.MaximumDaysBeforeDeparture} days" : "No limit (Above min)")</td>
+                    <td><span class="badge-status badge-confirmed">@r.RefundPercentage%</span></td>
+                    <td>
+                        <div class="action-cell">
+                            <a class="icon-btn" asp-action="Edit" asp-route-id="@r.CancellationRuleId" title="Edit" aria-label="Edit rule">
+                                <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.8 9.94l-3.75-3.75L3 17.25zM20.7 7.04a1 1 0 000-1.41l-2.34-2.34a1 1 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+                            </a>
+                            <form asp-action="Delete" asp-route-id="@r.CancellationRuleId" method="post" style="display:inline" onsubmit="return confirm('Delete this refund policy rule?')">
+                                @Html.AntiForgeryToken()
+                                <button class="icon-btn danger" type="submit" title="Delete" aria-label="Delete rule">
+                                    <svg viewBox="0 0 24 24"><path d="M6 19a2 2 0 002 2h8a2 2 0 002-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

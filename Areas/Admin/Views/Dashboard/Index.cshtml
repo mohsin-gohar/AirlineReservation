@@ -1,16 +1,20 @@
 @model System.Collections.Generic.List<AirlineReservation.Models.Booking>
 @using AirlineReservation.Models
+@using AirlineReservation.Areas.Admin.Controllers
 @{ ViewData["Title"] = "Admin Dashboard"; }
+
 <div class="section-head" style="margin-bottom:var(--s3)">
     <div><span class="eyebrow">Operations center</span><h2 style="margin:0">Network overview</h2></div>
     <span class="chip"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1010 10A10 10 0 0012 2zm1 15h-2v-2h2zm0-4h-2V7h2z"/></svg>Live</span>
 </div>
+
 <div class="kpi-grid">
     <div class="kpi reveal"><span class="ico"><svg viewBox="0 0 24 24"><path d="M21.5 15.5l-8.1-4.7V4.8c0-.9-.6-2.3-1.4-2.3s-1.4 1.4-1.4 2.3v6L2.5 15.5v2.1l8.1-2.5v4.6l-2.2 1.6v1.5l3.6-1 3.6 1v-1.5l-2.2-1.6v-4.6l8.1 2.5v-2.1z"/></svg></span><span><b><span data-count="@ViewBag.Flights">0</span></b><small>Flights</small></span></div>
     <div class="kpi reveal"><span class="ico"><svg viewBox="0 0 24 24"><path d="M20 6h-3V4a2 2 0 00-2-2H9a2 2 0 00-2 2v2H4a2 2 0 00-2 2v11a2 2 0 002 2h16a2 2 0 002-2V8a2 2 0 00-2-2z"/></svg></span><span><b><span data-count="@ViewBag.ActiveBookings">0</span></b><small>Active bookings</small></span></div>
     <div class="kpi reveal"><span class="ico"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V5l-9-4z"/></svg></span><span><b><span data-count="@ViewBag.BlockedHolds">0</span></b><small>Fare holds</small></span></div>
     <div class="kpi reveal"><span class="ico"><svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 10-5-5 5 5 0 005 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z"/></svg></span><span><b><span data-count="@ViewBag.Users">0</span></b><small>Users</small></span></div>
 </div>
+
 <div class="chart-grid">
     <div class="chart-card reveal">
         <h3>Bookings by status</h3>
@@ -27,7 +31,108 @@
         <p class="hint mt-4 mb-0" style="margin-top:16px">Net position: <b style="color:var(--ink-900)">@((revenue - refunds).ToString("C"))</b></p>
     </div>
 </div>
-<div class="admin-panel reveal">
+
+<!-- Step 4 visual reports: Occupancy, Vacant Seats, Frequent Travelers, Cancellations -->
+<div class="chart-grid" style="margin-top:var(--s3)">
+    <div class="chart-card reveal">
+        <h3>Flight Occupancy Rate</h3>
+        @{ var occupancyList = ViewBag.OccupancyReport as List<OccupancyReportItem> ?? new List<OccupancyReportItem>(); }
+        @if (occupancyList.Any())
+        {
+            foreach (var item in occupancyList.Take(5))
+            {
+                <div class="hbar">
+                    <div class="meta"><span>@item.FlightNumber (@item.Route)</span><span>@item.BookedSeats / @item.TotalCapacity seats (@item.OccupancyPercentage%)</span></div>
+                    <div class="track"><div class="fill green" data-width="@item.OccupancyPercentage"></div></div>
+                </div>
+            }
+        }
+        else
+        {
+            <p class="text-muted">No flight occupancy data available.</p>
+        }
+    </div>
+
+    <div class="chart-card reveal">
+        <h3>Frequent Travelers (SkyMiles Leaders)</h3>
+        @{ var frequent = ViewBag.FrequentTravelers as List<User> ?? new List<User>(); }
+        @if (frequent.Any())
+        {
+            <table class="data-table" style="border:0">
+                <thead><tr><th>Member</th><th>Email</th><th style="text-align:right">SkyMiles</th></tr></thead>
+                <tbody>
+                    @foreach (var u in frequent)
+                    {
+                        <tr>
+                            <td><b>@u.FirstName @u.LastName</b></td>
+                            <td>@u.Email</td>
+                            <td class="price-cell" style="text-align:right">@u.SkyMiles.ToString("N0")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p class="text-muted">No frequent travelers found.</p>
+        }
+    </div>
+</div>
+
+<div class="chart-grid" style="margin-top:var(--s3)">
+    <div class="chart-card reveal">
+        <h3>Vacant Seat Capacity</h3>
+        @{ var vacant = ViewBag.VacantSeatsReport as List<Flight> ?? new List<Flight>(); }
+        @if (vacant.Any())
+        {
+            <table class="data-table" style="border:0">
+                <thead><tr><th>Flight</th><th>Route</th><th>Economy Seats</th><th>Business Seats</th></tr></thead>
+                <tbody>
+                    @foreach (var f in vacant)
+                    {
+                        <tr>
+                            <td><b class="mono">@f.FlightNumber</b></td>
+                            <td>@f.OriginCity?.CityName → @f.DestinationCity?.CityName</td>
+                            <td><span class="chip">@f.EconomySeats available</span></td>
+                            <td><span class="chip">@f.BusinessSeats available</span></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p class="text-muted">No flights with available seats.</p>
+        }
+    </div>
+
+    <div class="chart-card reveal">
+        <h3>Cancellation History</h3>
+        @{ var cancellationItems = ViewBag.CancellationsReport as List<CancellationReportItem> ?? new List<CancellationReportItem>(); }
+        @if (cancellationItems.Any())
+        {
+            <table class="data-table" style="border:0">
+                <thead><tr><th>Date</th><th>Cancellations</th><th style="text-align:right">Refund Total</th></tr></thead>
+                <tbody>
+                    @foreach (var c in cancellationItems)
+                    {
+                        <tr>
+                            <td>@c.Date.ToString("MMM dd, yyyy")</td>
+                            <td><span class="badge-status badge-cancelled">@c.Count cancelled</span></td>
+                            <td class="price-cell" style="text-align:right">@c.TotalRefund.ToString("C")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p class="text-muted">No cancellation records found.</p>
+        }
+    </div>
+</div>
+
+<div class="admin-panel reveal" style="margin-top:var(--s3)">
     <div class="panel-head">
         <h3>Recent bookings</h3>
         <a class="btn btn-ghost btn-sm" asp-area="Admin" asp-controller="Bookings" asp-action="Index">View all</a>

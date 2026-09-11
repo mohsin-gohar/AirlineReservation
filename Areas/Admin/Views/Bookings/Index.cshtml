@@ -1,6 +1,7 @@
 @model IEnumerable<AirlineReservation.Models.Booking>
 @using AirlineReservation.Models
 @{ ViewData["Title"] = "Bookings"; }
+
 <div class="table-toolbar">
     <input class="input" type="search" placeholder="Search reference, passenger…" data-table-filter="#bookingsTable" aria-label="Search bookings" />
     <select class="input" style="max-width:190px" data-table-select="#bookingsTable" aria-label="Filter by status">
@@ -10,9 +11,21 @@
         <option value="Rescheduled">Rescheduled</option>
     </select>
 </div>
+
 <div class="admin-panel reveal in">
     <table class="data-table" id="bookingsTable">
-        <thead><tr><th>Reference</th><th>Passenger</th><th>Flight</th><th>Departs</th><th>Type</th><th>Status</th><th>Total</th></tr></thead>
+        <thead>
+            <tr>
+                <th>Reference</th>
+                <th>Passenger</th>
+                <th>Flight</th>
+                <th>Departs</th>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Total</th>
+                <th style="text-align:right">Override Status</th>
+            </tr>
+        </thead>
         <tbody>
             @foreach (var b in Model ?? Enumerable.Empty<Booking>())
             {
@@ -25,6 +38,18 @@
                     <td><span class="badge-status @(b.BookingType == BookingType.Blocked ? "badge-blocked" : "badge-scheduled")">@b.BookingType</span></td>
                     <td><span class="badge-status @badge">@b.BookingStatus</span></td>
                     <td class="price-cell">@b.TotalPrice.ToString("C")</td>
+                    <td>
+                        <form asp-action="OverrideStatus" method="post" style="display:flex;gap:6px;justify-content:flex-end;align-items:center">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@b.BookingId" />
+                            <select name="newStatus" class="input" style="padding:4px 8px;font-size:.82rem;width:auto" aria-label="Select new status">
+                                <option value="Active" selected="@(b.BookingStatus == BookingStatus.Active)">Active</option>
+                                <option value="Cancelled" selected="@(b.BookingStatus == BookingStatus.Cancelled)">Cancelled</option>
+                                <option value="Rescheduled" selected="@(b.BookingStatus == BookingStatus.Rescheduled)">Rescheduled</option>
+                            </select>
+                            <button class="btn btn-ghost btn-sm" type="submit" style="padding:4px 10px;font-size:.8rem">Save</button>
+                        </form>
+                    </td>
                 </tr>
             }
         </tbody>
