@@ -44,15 +44,11 @@
             <div class="nav-menu" id="navMenu">
                 <ul class="nav-links">
                     <li><a class="nav-link @Active("Home","Index")" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a class="nav-link @Active("Flight")" asp-controller="Flight" asp-action="Search">Book a Flight</a></li>
-                    <li><a class="nav-link @Active("Booking","Status")" asp-controller="Booking" asp-action="Status">Manage Booking</a></li>
-                    <li><a class="nav-link @Active("Flight","Status")" asp-controller="Flight" asp-action="Status">Flight Status</a></li>
+                    <li><a class="nav-link @Active("Flight","Search")" asp-controller="Flight" asp-action="Search">Book a Flight</a></li>
                     @if (uid == null)
                     {
                         <li><a class="nav-link @Active("Booking","CheckIn")" asp-controller="Booking" asp-action="CheckIn">Check-in</a></li>
                     }
-                    <li><a class="nav-link @Active("Home","Destinations")" asp-controller="Home" asp-action="Destinations">Destinations</a></li>
-                    <li><a class="nav-link @Active("Home","Offers")" asp-controller="Home" asp-action="Offers">Offers</a></li>
                     <li><a class="nav-link @Active("Home","About")" asp-controller="Home" asp-action="About">About</a></li>
                     <li><a class="nav-link @Active("Home","Contact")" asp-controller="Home" asp-action="Contact">Contact</a></li>
                     @if (uid != null)
